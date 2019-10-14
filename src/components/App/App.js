@@ -17,6 +17,7 @@ import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 
+import 'cutestrap/dist/css/cutestrap.min.css';
 import './App.css';
 
 class App extends Component {
