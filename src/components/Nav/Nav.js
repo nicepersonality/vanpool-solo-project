@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
+// import './Nav.css';
 
 const Nav = (props) => (
   <div className="nav">
