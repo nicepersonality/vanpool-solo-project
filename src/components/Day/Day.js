@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 
-class InfoPage extends Component {
+class Day extends Component {
+  state = {
+    editMode: false,
+    currentDay: null
+  }
   componentDidMount() {
     this.props.dispatch({
       type: 'FETCH_DAY',
@@ -21,4 +26,4 @@ class InfoPage extends Component {
 const mapStateToProps = store => ({
   store,
 });
-export default connect(mapStateToProps)(InfoPage);
+export default connect(mapStateToProps)(Day);
