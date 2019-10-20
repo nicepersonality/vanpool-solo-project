@@ -3,11 +3,62 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+// Gets day information about the specified date
+router.get('/:id', (req, res) => {
+  const queryText = `
+    SELECT * FROM "days"
+    WHERE "id" = $1;
+    `;
+  const queryValue = req.params.id;
+  pool.query(queryText, [queryValue])
+    .then((result) => {
+      res.send(result.rows);
+    }).catch((error) => {
+      console.log('Error fetching date', error);
+      res.sendStatus(500);
+    });
+})
+
+// Returns users riding on specified date
+router.get('/riders/:id', (req, res) => {
+  const queryText = `
+    SELECT "user".id, "user".username, "user".display_name, "user".cell FROM "days"
+    JOIN "user_days" ON "days".id = "user_days".days_id
+    JOIN "user" ON "user".id = "user_days".user_id
+    WHERE "days".id = $1 AND "user_days".riding = true;
+    `;
+  const queryValue = req.params.id;
+  pool.query(queryText, [queryValue])
+    .then((result) => {
+      res.send(result.rows);
+    }).catch((error) => {
+      console.log('Error fetching riders', error);
+      res.sendStatus(500);
+    });
+})
+
+// Returns users riding on specified date
+router.get('/driver/:id', (req, res) => {
+  const queryText = `
+    SELECT "user".id, "user".username, "user".display_name, "user".cell FROM "days"
+    JOIN "user" ON "user".id = "days".driver_id
+    WHERE "days".id = $1;
+    `;
+  const queryValue = req.params.id;
+  pool.query(queryText, [queryValue])
+    .then((result) => {
+      res.send(result.rows);
+    }).catch((error) => {
+      console.log('Error fetching riders', error);
+      res.sendStatus(500);
+    });
+})
+
 // Handles POST request with new date data
 router.post('/add', (req, res, next) => {  
   // let thisDay = {
   //   id: moment(day).format('YYYYMMDD'), // unique integer
-  //   date: moment(day).format('YYYY-MM-DD'), // postgres formate
+  //   date: moment(day).format('YYYY-MM-DD'), // postgres format
   //   year: moment(day).format('YYYY'),
   //   week: moment(day).week(),
   //   month: moment(day).format('MMM'),
