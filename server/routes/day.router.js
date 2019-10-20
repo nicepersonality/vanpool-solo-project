@@ -25,10 +25,9 @@ router.post('/add', (req, res, next) => {
 
   const queryText = 'INSERT INTO "days" (id, date, year, week, month, weekday, day) VALUES ($1, $2, $3, $4, $5, $6, $7)';
   const queryValues = [id, date, year, week, month, weekday, day];
-  console.log(queryValues);
-  // pool.query(queryText, [username, password, full_name, display_name, cell])
-  //   .then(() => res.sendStatus(201))
-  //   .catch(() => res.sendStatus(500));
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(201))
+    .catch(() => res.sendStatus(500));
 });
 
 module.exports = router;
