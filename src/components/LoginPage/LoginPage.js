@@ -44,44 +44,41 @@ class LoginPage extends Component {
           <h1>Login</h1>
           <div>
             <label htmlFor="username" className="field">
-              Username:
               <input
-                type="text"
+                type="email"
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
+              <span className="label">Email address</span>
             </label>
           </div>
           <div>
             <label htmlFor="password" className="field">
-              Password:
               <input
                 type="password"
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />
+              <span className="label">Password</span>
             </label>
           </div>
           <div>
-            <input
-              className="log-in button"
+            <button
+              className="log-in"
               type="submit"
               name="submit"
-              value="Log In"
-            />
+            >Log In</button>
           </div>
         </form>
-        <center>
-          <button
-            type="button"
-            className="link-button button"
-            onClick={() => {this.props.dispatch({type: 'SET_TO_REGISTER_MODE'})}}
-          >
-            Register
+        <button
+          type="button"
+          className="link-button button"
+          onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}
+        >
+          Register
           </button>
-        </center>
       </div>
     );
   }
