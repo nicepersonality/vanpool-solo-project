@@ -4,7 +4,6 @@ import moment from 'moment';
 
 class InitializeDatesPage extends Component {
   state = {
-    status: 'Generating dates…',
     queryText: ''
   };
 
@@ -25,13 +24,14 @@ VALUES `;
           weekday: moment(day).format('ddd'),
           day: moment(day).format('D')
         };
-        this.setState({status: `Adding ${thisDay.date}`});
         // add the day to the query string
         query += `
 (${thisDay.id}, '${thisDay.date}', ${thisDay.year}, ${thisDay.week}, ${thisDay.month}, '${thisDay.weekday}', ${thisDay.day}),`;
-        this.setState({queryText: query});
       } // end if
     } // end for
+    // replace final comma with semicolon
+    query = query.slice(0, -1) + ';';
+    this.setState({queryText: query});
   }
 
   componentDidMount() {
@@ -41,7 +41,7 @@ VALUES `;
   render() {
     return (
       <div>
-        <h2>{this.state.status}</h2>
+        <h2>Run this query on the <code>vanpool</code> database:</h2>
         <pre>{this.state.queryText}</pre>
       </div>
     );
