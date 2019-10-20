@@ -40,7 +40,7 @@ class LoginPage extends Component {
             {this.props.errors.loginMessage}
           </h2>
         )}
-        <form className="wrapper" onSubmit={this.login}>
+        <form className="wrapper -thin" onSubmit={this.login}>
           <h1>Login</h1>
           <div>
             <label htmlFor="username" className="field">
@@ -66,7 +66,7 @@ class LoginPage extends Component {
           </div>
           <div>
             <button
-              className="log-in"
+              className="log-in button"
               type="submit"
               name="submit"
             >Log In</button>
@@ -74,7 +74,7 @@ class LoginPage extends Component {
         </form>
         <button
           type="button"
-          className="link-button button"
+          className="link-button button -link"
           onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}
         >
           Register
