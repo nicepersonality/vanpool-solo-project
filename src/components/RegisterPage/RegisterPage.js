@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class RegisterPage extends Component {
   state = {
     username: '',
     password: '',
+    full_name: '',
+    display_name: '',
+    cell: ''
   };
 
   registerUser = (event) => {
@@ -16,10 +19,13 @@ class RegisterPage extends Component {
         payload: {
           username: this.state.username,
           password: this.state.password,
+          full_name: this.state.full_name,
+          display_name: this.state.display_name,
+          cell: this.state.cell
         },
       });
     } else {
-      this.props.dispatch({type: 'REGISTRATION_INPUT_ERROR'});
+      this.props.dispatch({ type: 'REGISTRATION_INPUT_ERROR' });
     }
   } // end registerUser
 
@@ -40,48 +46,78 @@ class RegisterPage extends Component {
             {this.props.errors.registrationMessage}
           </h2>
         )}
-        <form onSubmit={this.registerUser}>
+        <form className="wrapper -thin" onSubmit={this.registerUser}>
           <h1>Register User</h1>
           <div>
-            <label htmlFor="username">
-              Username:
+            <label htmlFor="username" className="field">
               <input
-                type="text"
+                type="email"
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
+              <span className="label">Email address</span>
             </label>
           </div>
           <div>
-            <label htmlFor="password">
-              Password:
+            <label htmlFor="full_name" className="field">
+              <input
+                type="text"
+                name="full_name"
+                value={this.state.full_name}
+                onChange={this.handleInputChangeFor('full_name')}
+              />
+              <span className="label">Full name</span>
+            </label>
+          </div>
+          <div>
+            <label htmlFor="display_name" className="field">
+              <input
+                type="text"
+                name="display_name"
+                value={this.state.display_name}
+                onChange={this.handleInputChangeFor('display_name')}
+              />
+              <span className="label">Display name (nickname)</span>
+            </label>
+          </div>
+          <div>
+            <label htmlFor="cell" className="field">
+              <input
+                type="text"
+                name="cell"
+                value={this.state.cell}
+                onChange={this.handleInputChangeFor('cell')}
+              />
+              <span className="label">Cell number</span>
+            </label>
+          </div>
+          <div>
+            <label htmlFor="password" className="field">
               <input
                 type="password"
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />
+              <span className="label">Password</span>
             </label>
           </div>
           <div>
-            <input
+            <button
               className="register"
               type="submit"
               name="submit"
-              value="Register"
-            />
+            >Register</button>
           </div>
         </form>
-        <center>
-          <button
-            type="button"
-            className="link-button"
-            onClick={() => {this.props.dispatch({type: 'SET_TO_LOGIN_MODE'})}}
-          >
-            Login
+        <button
+          type="button"
+          className="link-button"
+          onClick={() => { this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' }) }}
+        >
+          Login
           </button>
-        </center>
       </div>
     );
   }
