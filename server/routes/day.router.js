@@ -55,16 +55,7 @@ router.get('/driver/:id', (req, res) => {
 })
 
 // Handles POST request with new date data
-router.post('/add', (req, res, next) => {  
-  // let thisDay = {
-  //   id: moment(day).format('YYYYMMDD'), // unique integer
-  //   date: moment(day).format('YYYY-MM-DD'), // postgres format
-  //   year: moment(day).format('YYYY'),
-  //   week: moment(day).week(),
-  //   month: moment(day).format('MMM'),
-  //   weekday: moment(day).format('ddd'),
-  //   day: moment(day).format('D')
-  // };
+router.post('/add', (req, res, next) => {
   const id = req.body.id;
   const date = req.body.date;
   const year = req.body.year;
@@ -72,8 +63,6 @@ router.post('/add', (req, res, next) => {
   const month = req.body.month;
   const weekday = req.body.weekday;
   const day = req.body.day;
-
-
   const queryText = 'INSERT INTO "days" (id, date, year, week, month, weekday, day) VALUES ($1, $2, $3, $4, $5, $6, $7)';
   const queryValues = [id, date, year, week, month, weekday, day];
   pool.query(queryText, queryValues)
