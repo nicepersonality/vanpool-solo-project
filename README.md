@@ -1,10 +1,10 @@
-# Name of Application
+# Van Hailin’!
 
-One Paragraph of project description goes here. Link to the live version of the app if it's hosted on Heroku.
+*Van Hailin’!* is a web app, optimized for mobile screens, which aims to simplify and consolidate the tools needed to coordinate a vanpool. Vanpool members can quickly see and update the dates they are riding; attach messages to a specific day; see who is driving or riding in the van each day, along with their contact information; and see an automatic calculation of how much they owe the vanpool each month based on their participation.
 
 ## Built With
 
-List technologies and frameworks here
+*VH!* is built on the PERN stack (PostgreSQL, Express.js, React, Node.js) along with Redux and Redux Sagas. It makes heavy use of Moment.js to work with times and dates, and is styled on top of the Cutestrap CSS framework.
 
 ## Getting Started
 
@@ -17,6 +17,9 @@ Link to software that is required before you attempt to start the app (e.g. node
 - [Node.js](https://nodejs.org/en/)
 - List other prerequisites here
 
+### Database setup
+
+*VH!* uses a Postgres database named `vanpool`. Once the database is created, run the queries in [`database.sql`](database.sql) to configure the tables and relationships.
 
 ### Installing
 
@@ -34,18 +37,13 @@ Include one or two screen shots of your project here (optional). Remove if unuse
 
 ## Documentation
 
-Link to a read-only version of your scope document or other relevant documentation here (optional). Remove if unused.
+- [Initial project scope document](https://docs.google.com/document/d/1wEBsOM0mhLCLPagLasIz-VW4CFsc6bkkbQoKnB_zDlw/edit?usp=sharing). 
 
 ### Completed Features
 
-High level list of items completed.
-
-- [x] Feature a
-- [x] Feature b
+- [x] User login and registration
 
 ### Next Steps
-
-Features that you would like to add at some point in the future.
 
 - [ ] Feature c
 
@@ -55,7 +53,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* Name of author(s)
+* Lilith Bentley
 
 
 ## Acknowledgments

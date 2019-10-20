@@ -8,6 +8,8 @@ import {
 
 import {connect} from 'react-redux';
 
+import moment from 'moment';
+
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 
@@ -21,8 +23,37 @@ import 'cutestrap/dist/css/cutestrap.min.css';
 import './App.css';
 
 class App extends Component {
+  state = {
+    today: {
+      date: '',
+      week: '',
+      month: '',
+      year: '',
+      day: ''
+    }
+  }
+
   componentDidMount () {
-    this.props.dispatch({type: 'FETCH_USER'})
+    this.props.dispatch({type: 'FETCH_USER'});
+    const now = moment();
+    this.setToday(now);
+  }
+
+  setToday = (day) => {
+    const todayDate = moment(day).format('D');
+    const todayWeek = moment(day).week();
+    const todayMonth = moment(day).format('MMM');
+    const todayYear = moment(day).format('YYYY');
+    const todayDay = moment(day).format('ddd');
+    this.setState({
+      today: {
+        date: todayDate,
+        week: todayWeek,
+        month: todayMonth,
+        year: todayYear,
+        day: todayDay
+      }
+    });
   }
 
   render() {

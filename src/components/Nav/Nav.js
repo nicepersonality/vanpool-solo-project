@@ -7,7 +7,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 const Nav = (props) => (
   <div className="nav">
     <Link to="/home">
-      <h2 className="nav-title">Prime Solo Project</h2>
+      <h1 className="nav-title">Van Hailin’!</h1>
     </Link>
     <div className="nav-right">
       <Link className="nav-link" to="/home">
@@ -22,7 +22,7 @@ const Nav = (props) => (
           <Link className="nav-link" to="/info">
             Info Page
           </Link>
-          <LogOutButton className="nav-link"/>
+          <LogOutButton className="nav-link button -link"/>
         </>
       )}
       {/* Always show this link since the about page is not protected */}
