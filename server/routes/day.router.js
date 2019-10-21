@@ -54,6 +54,25 @@ router.get('/driver/:id', (req, res) => {
     });
 })
 
+// Returns whether or not a specified day+user junction row exists
+router.get('/user/:dateId/:userId', (req, res) => {
+  const queryText = `
+    SELECT COUNT(*) FROM "user_days"
+    WHERE "days_id" = $1 AND "user_id" = $2;
+    `;
+  const queryValues = [req.params.dateId, req.params.userId];
+  pool.query(queryText, queryValues)
+    .then((result) => {
+      const response = {
+        junction: (result.rows[0].count > 0)
+      }
+      res.send(response);
+    }).catch((error) => {
+      console.log('Error fetching riders', error);
+      res.sendStatus(500);
+    });
+})
+
 // Handles POST request with new date data
 router.post('/add', (req, res, next) => {
   const id = req.body.id;
