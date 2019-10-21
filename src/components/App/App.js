@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Redirect,
   Switch,
@@ -18,6 +18,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import Day from '../Day/Day';
 
 import 'cutestrap/dist/css/cutestrap.min.css';
 import './App.css';
@@ -86,6 +87,11 @@ class App extends Component {
               exact
               path="/info"
               component={InfoPage}
+            />
+            {/* This shows the details for a given day */}
+            <ProtectedRoute
+              path="/day/:dayId"
+              component={Day}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
