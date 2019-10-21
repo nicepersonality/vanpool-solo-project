@@ -50,9 +50,25 @@ function* changeRideStatus(action) {
   }
 }
 
+// worker Saga: will be fired on "CHANGE_DRIVE_STATUS" actions
+function* changeDriveStatus(action) {
+  const dayId = action.payload.dayId;
+  const userId = action.payload.userId;
+  const newDriveStatus = !action.payload.driveStatus;
+  try {
+    // if changing to true, set driver to user; if changing to false, clear the driver 
+    const newDriver = newDriveStatus ? userId : null;
+    yield axios.put(`/api/day/drive/${dayId}`, {driver:newDriver});
+    yield fetchDay({payload:dayId});
+  } catch (error) {
+    console.log('Day get request failed', error);
+  }
+}
+
 function* daySaga() {
   yield takeLatest('FETCH_DAY', fetchDay);
   yield takeLatest('CHANGE_RIDE_STATUS', changeRideStatus);
+  yield takeLatest('CHANGE_DRIVE_STATUS', changeDriveStatus);
 }
 
 export default daySaga;
