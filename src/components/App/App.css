@@ -1,8 +1,49 @@
-/* Cutestrap setup */
+/* load Google fonts */
+@import url('https://fonts.googleapis.com/css?family=Cinzel:700|Libre+Franklin:300,500,800&display=swap&subset=latin-ext');
 
+/* temporary padding until I set up proper layout */
+body {
+    padding: 0 1rem;
+}
+div+div {
+    margin: 1rem 0;
+}
+span+span::before {
+    content: ' ';
+    white-space: pre;
+}
+
+/* Cutestrap configuration */
 * {
-    --rhythm: 1.25rem;
-    --line-height: var(--sub-rhythm, var(--rhythm));
-    --line-height-ratio: 1.25;
-    --font-size: calc(var(--line-height) / var(--line-height-ratio));
+    --rhythm: 1.5rem;
+    --line-height-ratio: 1.2;
+}
+html {
+    --font-family: 'Libre Franklin', '-apple-system', 'system-ui', sans-serif;
+    --font-mono: 'Consolas', monospace;
+    --font-heading: 'Cinzel', serif;
+    --font-body: var(--font-family);
+    --color-link: var(--color-primary);
+    --color-link-visited: var(--color-primary);
+    --color-link-hover: var(--color-primary-shade1);
+    --color-link-active: var(--color-primary-shade1);
+    font-weight: 500;
+}
+h1 {
+    --sub-rhythm: var(--rhythm-double);
+    --line-height-ratio: 1;
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+h2 {
+    --sub-rhythm: var(--rhythm-double);
+    --line-height-ratio: 1.2;
+    font-family: var(--font-body);
+    font-weight: 300;
+}
+b, strong, var {
+    font-weight: 800;
+}
+a {
+    text-decoration: none;
 }

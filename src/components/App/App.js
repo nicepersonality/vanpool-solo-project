@@ -18,6 +18,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import Home from '../Home/Home';
 import Day from '../Day/Day';
 
 import 'cutestrap/dist/css/cutestrap.min.css';
@@ -79,6 +80,11 @@ class App extends Component {
             <ProtectedRoute
               exact
               path="/home"
+              component={Home}
+            />
+            <ProtectedRoute
+              exact
+              path="/user"
               component={UserPage}
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
