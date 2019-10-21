@@ -75,12 +75,16 @@ class Day extends Component {
       <div className="Day-component">
         <div className="dayDetails">
           <h2 className="currentDay">
-            <span className="currentMon">{moment(this.state.currentDay, 'YYYYMMDD').format('MMM')} </span> 
+            <span className="currentMon">{moment(this.state.currentDay, 'YYYYMMDD').format('MMM')}</span> 
             <span className="currentDate">{moment(this.state.currentDay, 'YYYYMMDD').format('DD')}</span> 
-            <span className="currentDow"> {moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
+            <span className="currentDow">{moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
           </h2>
-          <Link to={{ pathname: '/day/' + this.state.prevDay }}>Previous</Link>
-          <Link to={{ pathname: '/day/' + this.state.nextDay }}>Next</Link>
+          <div className="prevDayLink">
+            <Link to={{ pathname: '/day/' + this.state.prevDay }}>Previous</Link>
+          </div>
+          <div className="nextDayLink">
+            <Link to={{ pathname: '/day/' + this.state.nextDay }}>Next</Link>
+          </div>
           <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders !== 1 && 's' /* pluralize unless it's 1 */}</div>
           <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
         </div>
@@ -92,7 +96,7 @@ class Day extends Component {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
-                <a href={'sms:' + rider.cell}>{rider.cell}</a>
+                <span className="riderCell"><a href={'sms:' + rider.cell}>{rider.cell}</a></span>
               </li>
             );
           })}
