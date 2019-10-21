@@ -38,7 +38,9 @@ class DayEdit extends Component {
   render() {
     return (
       <div className="DayEdit-component">
-        {JSON.stringify(this.state, null, 1)}
+        {/* {JSON.stringify(this.state, null, 1)} */}
+        <button className="button">Riding: {this.state.isRiding?'YES':'NO'}</button>
+        <button className="button">Driving: {this.state.isDriving?'YES':'NO'}</button>
         <div>
           <Link to={{ pathname: '/day/' + this.state.currentDay, hash: '' }}>Stop editing</Link>
         </div>
