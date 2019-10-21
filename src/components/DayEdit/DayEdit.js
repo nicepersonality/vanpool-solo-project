@@ -39,8 +39,8 @@ class DayEdit extends Component {
     return (
       <div className="DayEdit-component">
         {/* {JSON.stringify(this.state, null, 1)} */}
-        <button className="button">Riding: {this.state.isRiding?'YES':'NO'}</button>
-        <button className="button">Driving: {this.state.isDriving?'YES':'NO'}</button>
+        <button className="button" onClick={()=>this.props.dispatch({type: 'CHANGE_RIDE_STATUS', payload: {dayId: this.state.currentDay, userId: this.props.store.user.id, rideStatus: this.state.isRiding}})}>Riding: {this.state.isRiding?'YES':'NO'}</button>
+        <button className="button" onClick={()=>this.props.dispatch({type: 'CHANGE_DRIVE_STATUS', payload: {dayId: this.state.currentDay, userId: this.props.store.user.id, driveStatus: this.state.isDriving}})}>Driving: {this.state.isDriving?'YES':'NO'}</button>
         <div>
           <Link to={{ pathname: '/day/' + this.state.currentDay, hash: '' }}>Stop editing</Link>
         </div>
