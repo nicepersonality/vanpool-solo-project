@@ -18,7 +18,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
-import InitializeDatesPage from '../InitializeDatesPage/InitializeDatesPage';
+import Day from '../Day/Day';
 
 import 'cutestrap/dist/css/cutestrap.min.css';
 import './App.css';
@@ -88,11 +88,10 @@ class App extends Component {
               path="/info"
               component={InfoPage}
             />
-            {/* This route will run a function to populate the days table with the weekdays for the years 2019–20. TODO: replace with a less hacky method */}
+            {/* This shows the details for a given day */}
             <ProtectedRoute
-              exact
-              path="/initialize-dates"
-              component={InitializeDatesPage}
+              path="/day/:dayId"
+              component={Day}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
