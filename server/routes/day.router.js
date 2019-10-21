@@ -73,6 +73,37 @@ router.get('/user/:dateId/:userId', (req, res) => {
     });
 })
 
+// Create a row in the junction table with the riding status
+router.post('/ride/:dateId/:userId', (req, res) => {
+  const queryText = `
+    INSERT INTO "user_days" (user_id, days_id, riding)
+    VALUES ($1, $2, $3);
+    `;
+  const queryValues = [req.params.userId, req.params.dateId, req.body.newRideStatus];
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(201))
+    .catch((error) => {
+      console.log('Error adding status', error);
+      res.sendStatus(500);
+    });
+})
+
+// Modify a row in the junction table with the riding status
+router.put('/ride/:dateId/:userId', (req, res) => {
+  const queryText = `
+    UPDATE "user_days"
+    SET riding = $1
+    WHERE "days_id" = $2 AND "user_id" = $3;
+    `;
+  const queryValues = [req.body.newRideStatus, req.params.dateId, req.params.userId];
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log('Error modifying status', error);
+      res.sendStatus(500);
+    });
+})
+
 // Handles POST request with new date data
 router.post('/add', (req, res, next) => {
   const id = req.body.id;
