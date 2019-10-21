@@ -54,6 +54,72 @@ router.get('/driver/:id', (req, res) => {
     });
 })
 
+// Returns whether or not a specified day+user junction row exists
+router.get('/user/:dateId/:userId', (req, res) => {
+  const queryText = `
+    SELECT COUNT(*) FROM "user_days"
+    WHERE "days_id" = $1 AND "user_id" = $2;
+    `;
+  const queryValues = [req.params.dateId, req.params.userId];
+  pool.query(queryText, queryValues)
+    .then((result) => {
+      const response = {
+        junction: (result.rows[0].count > 0)
+      }
+      res.send(response);
+    }).catch((error) => {
+      console.log('Error fetching riders', error);
+      res.sendStatus(500);
+    });
+})
+
+// Create a row in the junction table with the riding status
+router.post('/ride/:dateId/:userId', (req, res) => {
+  const queryText = `
+    INSERT INTO "user_days" (user_id, days_id, riding)
+    VALUES ($1, $2, $3);
+    `;
+  const queryValues = [req.params.userId, req.params.dateId, req.body.newRideStatus];
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(201))
+    .catch((error) => {
+      console.log('Error adding status', error);
+      res.sendStatus(500);
+    });
+})
+
+// Modify a row in the junction table with the riding status
+router.put('/ride/:dateId/:userId', (req, res) => {
+  const queryText = `
+    UPDATE "user_days"
+    SET "riding" = $1
+    WHERE "days_id" = $2 AND "user_id" = $3;
+    `;
+  const queryValues = [req.body.newRideStatus, req.params.dateId, req.params.userId];
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log('Error modifying status', error);
+      res.sendStatus(500);
+    });
+})
+
+// Modify a row in the days table with a new driver (or null)
+router.put('/drive/:dateId', (req, res) => {
+  const queryText = `
+    UPDATE "days"
+    SET "driver_id" = $1
+    WHERE "id" = $2;
+    `;
+  const queryValues = [req.body.driver, req.params.dateId];
+  pool.query(queryText, queryValues)
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.log('Error modifying status', error);
+      res.sendStatus(500);
+    });
+})
+
 // Handles POST request with new date data
 router.post('/add', (req, res, next) => {
   const id = req.body.id;
