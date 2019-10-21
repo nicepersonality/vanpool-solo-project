@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
+import DayEdit from '../DayEdit/DayEdit';
 
 class Day extends Component {
   state = {
@@ -12,11 +13,14 @@ class Day extends Component {
     riders: [],
     driver: 'Nobody',
     user: this.props.store.user.display_name,
-    userRiding: undefined
+    userRiding: undefined,
+    edit: false
   }
 
   componentDidMount() {
     this.setDayState(this.state.currentDay);
+    console.log('this.props.location.hash', this.props.location.hash);
+    
   }
 
   componentDidUpdate(prevProps) {
@@ -79,6 +83,15 @@ class Day extends Component {
             <span className="currentDate">{moment(this.state.currentDay, 'YYYYMMDD').format('DD')}</span> 
             <span className="currentDow">{moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
           </h2>
+          <div className="editDayLink">
+            {
+              this.props.location.hash === '#edit'
+                ?
+              <DayEdit currentDay={this.state.currentDay} />
+                :
+              <Link to={{ pathname: '/day/' + this.state.currentDay, hash: '#edit' }}>Edit</Link>
+            }
+          </div>
           <div className="prevDayLink">
             <Link to={{ pathname: '/day/' + this.state.prevDay }}>Previous</Link>
           </div>
@@ -101,10 +114,11 @@ class Day extends Component {
             );
           })}
         </ul>
-        {/* <hr /><pre className="wrapper -thin">this.state
-        {JSON.stringify(this.state, null, 2)}</pre> */}
-        {/* <hr /><pre className="wrapper -thin">this.props.store
-        {JSON.stringify(this.props.store, null, 2)}</pre> */}
+
+        <hr /><pre className="wrapper -thin">this.state=
+        {JSON.stringify(this.state, null, 2)}</pre>
+        <hr /><pre className="wrapper -thin">this.props=
+        {JSON.stringify(this.props, null, 2)}</pre>
       </div>
     );
   }
