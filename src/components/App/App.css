@@ -1,17 +1,6 @@
 /* load Google fonts */
 @import url('https://fonts.googleapis.com/css?family=Cinzel:700|Libre+Franklin:300,500,800&display=swap&subset=latin-ext');
 
-/* temporary padding until I set up proper layout */
-body {
-    padding: 0 1rem;
-}
-div+div {
-    margin: 1rem 0;
-}
-span+span::before {
-    content: ' ';
-    white-space: pre;
-}
 .react-phone-number-input__country {
     display: none;
 }
@@ -49,4 +38,134 @@ b, strong, var {
 }
 a {
     text-decoration: none;
+}
+
+/* Basic layout */
+body {
+    position: relative;
+    min-height: 100vh;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    z-index: 10;
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    background-color: hsla(170, 10%, 98%, 0.9);
+}
+main {
+    position: relative;
+    margin: 0;
+    padding: 10rem 1.5rem 5rem;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    z-index: 10;
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    background-color: hsla(170, 10%, 98%, 0.9);
+}
+@supports ( backdrop-filter: blur(1rem) ) {
+    header, footer {
+        background-color: hsla(170, 10%, 98%, 0.3);
+        backdrop-filter: blur(1rem);
+    }
+}
+
+/* Nav menus */
+.topNav, .bottomNav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+}
+.topNav a, .bottomNav a {
+    display: block;
+    margin: 0.25rem;
+    padding: 0.5rem 1.25rem;
+    background-color: white;
+    border: 0.125rem solid var(--color-link);
+    border-radius: var(--rhythm-half);
+}
+.topNav a:active, .bottomNav a:active {
+    color: white;
+    background-color: var(--color-link-active);
+    border-color: var(--color-link-active);
+}
+.topNav a:hover, .bottomNav a:hover {
+    border-color: var(--color-link-hover);
+}
+.topNav a:focus, .bottomNav a:focus {
+    color: white;
+    background-color: var(--color-link);
+    border-color: var(--color-link);
+}
+
+/* Header styles */
+header {
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+    padding: 0;
+}
+header h1 a {
+    display: block;
+}
+header p {
+    margin: 0.375rem;
+}
+
+/* Date display */
+.currentDay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 6rem;
+    width: 5rem;
+    background-color: var(--color-neutral-tint3);
+    border: 0.25rem solid var(--color-neutral-shade1);
+    border-radius: var(--rhythm-eighth);
+    margin: 0;
+}
+.currentDay.in {
+    color: white;
+    background-color: var(--color-accent-shade1);
+    border-color: var(--color-accent-shade1);
+}
+.currentDay.noDriver {
+    border-color: var(--color-primary-shade1);
+}
+.currentDay .currentDow {
+    order: 1;
+}
+.currentDay .currentDate {
+    order: 2;
+}
+.currentDay .currentMon {
+    order: 3;
+}
+.currentDay .currentDow,
+.currentDay .currentMon {
+    font-size: 1.125rem;
+    line-height: 1;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .25rem;
+}
+.currentDay .currentDate {
+    font-weight: 500;
+    font-size: 3rem;
+    line-height: 1;
 }

@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { formatPhoneNumber } from 'react-phone-number-input'
+import { formatPhoneNumber } from 'react-phone-number-input';
 
 import DayEdit from '../DayEdit/DayEdit';
+
+const classNames = require('classnames');
 
 class Day extends Component {
   state = {
@@ -50,6 +52,11 @@ class Day extends Component {
     }
   }
 
+  dayFormat = (format) => {
+    // a shorter way to render (parts of) the current day
+    return moment(this.state.currentDay, 'YYYYMMDD').format(format);
+  }
+
   setDayState(dayId) {
     this.props.dispatch({
       type: 'FETCH_DAY',
@@ -79,18 +86,22 @@ class Day extends Component {
     return (
       <div className="Day-component">
         <div className="dayDetails">
-          <h2 className="currentDay">
-            <span className="currentMon">{moment(this.state.currentDay, 'YYYYMMDD').format('MMM')}</span> 
-            <span className="currentDate">{moment(this.state.currentDay, 'YYYYMMDD').format('DD')}</span> 
-            <span className="currentDow">{moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
+          <h2 className={classNames(
+            'currentDay',
+            {
+              'in': this.state.userRiding,
+              'noDriver': this.state.driver === 'Nobody'
+            }
+          )}>
+            <span className="currentDow">{this.dayFormat('ddd')}</span>
+            <span className="currentMon">{this.dayFormat('MMM')}</span> 
+            <span className="currentDate">{this.dayFormat('DD')}</span> 
           </h2>
-          <div className="editDayLink">
+          <div className="editDay">
             {
               this.props.location.hash === '#edit'
-                ?
+                &&
               <DayEdit currentDay={this.state.currentDay} />
-                :
-              <Link to={{ pathname: '/day/' + this.state.currentDay, hash: '#edit' }}>Edit</Link>
             }
           </div>
           <div className="prevDayLink">
