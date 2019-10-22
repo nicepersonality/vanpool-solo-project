@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { formatPhoneNumber } from 'react-phone-number-input'
 
 import DayEdit from '../DayEdit/DayEdit';
 
@@ -109,7 +110,7 @@ class Day extends Component {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
-                <span className="riderCell"><a href={'sms:' + rider.cell}>{rider.cell}</a></span>
+                <span className="riderCell"><a href={'sms:' + rider.cell}>{formatPhoneNumber(rider.cell)}</a></span>
               </li>
             );
           })}
