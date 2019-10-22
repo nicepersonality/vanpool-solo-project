@@ -7,7 +7,7 @@
   },
   "version": "0.1.0",
   "private": true,
-  "license": "MPL-2.0",
+  "license": "wHPL",
   "description": "_Van Hailin’!_ helps coordinate vanpool ridership.",
   "repository": {
     "type": "git",
