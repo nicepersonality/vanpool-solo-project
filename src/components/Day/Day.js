@@ -116,10 +116,11 @@ class Day extends Component {
           })}
         </ul>
 
-        <hr /><pre className="wrapper -thin">this.state=
-        {JSON.stringify(this.state, null, 2)}</pre>
-        <hr /><pre className="wrapper -thin">this.props=
-        {JSON.stringify(this.props, null, 2)}</pre>
+        {/* <hr /><pre className="wrapper -thin">this.state=
+        {JSON.stringify(this.state, null, 2)}</pre> */}
+
+        {/* <hr /><pre className="wrapper -thin">this.props=
+        {JSON.stringify(this.props, null, 2)}</pre> */}
       </div>
     );
   }
