@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { formatPhoneNumber } from 'react-phone-number-input'
+import { formatPhoneNumber } from 'react-phone-number-input';
 
 import DayEdit from '../DayEdit/DayEdit';
+
+const classNames = require('classnames');
 
 class Day extends Component {
   state = {
@@ -84,18 +86,22 @@ class Day extends Component {
     return (
       <div className="Day-component">
         <div className="dayDetails">
-          <h2 className="currentDay">
+          <h2 className={classNames(
+            'currentDay',
+            {
+              'in': this.state.userRiding,
+              'noDriver': this.state.driver === 'Nobody'
+            }
+          )}>
             <span className="currentDow">{this.dayFormat('ddd')}</span>
             <span className="currentMon">{this.dayFormat('MMM')}</span> 
             <span className="currentDate">{this.dayFormat('DD')}</span> 
           </h2>
-          <div className="editDayLink">
+          <div className="editDay">
             {
               this.props.location.hash === '#edit'
-                ?
+                &&
               <DayEdit currentDay={this.state.currentDay} />
-                :
-              <Link to={{ pathname: '/day/' + this.state.currentDay, hash: '#edit' }}>Edit</Link>
             }
           </div>
           <div className="prevDayLink">
