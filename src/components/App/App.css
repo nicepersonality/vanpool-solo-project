@@ -12,6 +12,9 @@ span+span::before {
     content: ' ';
     white-space: pre;
 }
+.react-phone-number-input__country {
+    display: none;
+}
 
 /* Cutestrap configuration */
 * {
