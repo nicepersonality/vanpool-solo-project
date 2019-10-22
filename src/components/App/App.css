@@ -1,6 +1,20 @@
 /* load Google fonts */
-
 @import url('https://fonts.googleapis.com/css?family=Cinzel:700|Libre+Franklin:300,500,800&display=swap&subset=latin-ext');
+
+/* temporary padding until I set up proper layout */
+body {
+    padding: 0 1rem;
+}
+div+div {
+    margin: 1rem 0;
+}
+span+span::before {
+    content: ' ';
+    white-space: pre;
+}
+.react-phone-number-input__country {
+    display: none;
+}
 
 /* Cutestrap configuration */
 * {
@@ -8,7 +22,7 @@
     --line-height-ratio: 1.2;
 }
 html {
-    --font-family: 'Libre Franklin', sans-serif;
+    --font-family: 'Libre Franklin', '-apple-system', 'system-ui', sans-serif;
     --font-mono: 'Consolas', monospace;
     --font-heading: 'Cinzel', serif;
     --font-body: var(--font-family);

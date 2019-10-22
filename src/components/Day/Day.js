@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { formatPhoneNumber } from 'react-phone-number-input'
 
+import DayEdit from '../DayEdit/DayEdit';
 
 class Day extends Component {
   state = {
@@ -12,11 +14,14 @@ class Day extends Component {
     riders: [],
     driver: 'Nobody',
     user: this.props.store.user.display_name,
-    userRiding: undefined
+    userRiding: undefined,
+    edit: false
   }
 
   componentDidMount() {
     this.setDayState(this.state.currentDay);
+    console.log('this.props.location.hash', this.props.location.hash);
+    
   }
 
   componentDidUpdate(prevProps) {
@@ -75,12 +80,25 @@ class Day extends Component {
       <div className="Day-component">
         <div className="dayDetails">
           <h2 className="currentDay">
-            <span className="currentMon">{moment(this.state.currentDay, 'YYYYMMDD').format('MMM')} </span> 
+            <span className="currentMon">{moment(this.state.currentDay, 'YYYYMMDD').format('MMM')}</span> 
             <span className="currentDate">{moment(this.state.currentDay, 'YYYYMMDD').format('DD')}</span> 
-            <span className="currentDow"> {moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
+            <span className="currentDow">{moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
           </h2>
-          <Link to={{ pathname: '/day/' + this.state.prevDay }}>Previous</Link>
-          <Link to={{ pathname: '/day/' + this.state.nextDay }}>Next</Link>
+          <div className="editDayLink">
+            {
+              this.props.location.hash === '#edit'
+                ?
+              <DayEdit currentDay={this.state.currentDay} />
+                :
+              <Link to={{ pathname: '/day/' + this.state.currentDay, hash: '#edit' }}>Edit</Link>
+            }
+          </div>
+          <div className="prevDayLink">
+            <Link to={{ pathname: '/day/' + this.state.prevDay }}>Previous</Link>
+          </div>
+          <div className="nextDayLink">
+            <Link to={{ pathname: '/day/' + this.state.nextDay }}>Next</Link>
+          </div>
           <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders !== 1 && 's' /* pluralize unless it's 1 */}</div>
           <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
         </div>
@@ -92,15 +110,17 @@ class Day extends Component {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
-                <a href={'sms:' + rider.cell}>{rider.cell}</a>
+                <span className="riderCell"><a href={'sms:' + rider.cell}>{formatPhoneNumber(rider.cell)}</a></span>
               </li>
             );
           })}
         </ul>
-        {/* <hr /><pre className="wrapper -thin">this.state
+
+        {/* <hr /><pre className="wrapper -thin">this.state=
         {JSON.stringify(this.state, null, 2)}</pre> */}
-        {/* <hr /><pre className="wrapper -thin">this.props.store
-        {JSON.stringify(this.props.store, null, 2)}</pre> */}
+
+        {/* <hr /><pre className="wrapper -thin">this.props=
+        {JSON.stringify(this.props, null, 2)}</pre> */}
       </div>
     );
   }

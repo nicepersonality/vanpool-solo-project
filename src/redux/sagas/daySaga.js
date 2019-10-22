@@ -21,12 +21,54 @@ function* fetchDay(action) {
     }
     yield put({ type: 'SET_DAY', payload: dayDetails });
   } catch (error) {
-    console.log('User get request failed', error);
+    console.log('Day get request failed', error);
+  }
+}
+
+// worker Saga: will be fired on "CHANGE_RIDE_STATUS" actions
+function* changeRideStatus(action) {
+  const dayId = action.payload.dayId;
+  const userId = action.payload.userId;
+  const newRideStatus = !action.payload.rideStatus;
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    const junctionResponse = yield axios.get(`/api/day/user/${dayId}/${userId}`, config);
+    const rowExists = junctionResponse.data.junction;
+    if (rowExists) {
+      // if the row already exists, we need to PUT an update to it
+      yield axios.put(`/api/day/ride/${dayId}/${userId}`, {newRideStatus:newRideStatus});
+    } else {
+      // otherwise, we need to POST a new row in the table to create it
+      yield axios.post(`/api/day/ride/${dayId}/${userId}`, {newRideStatus:newRideStatus});
+    }
+    yield fetchDay({payload:dayId});
+  } catch (error) {
+    console.log('Day get request failed', error);
+  }
+}
+
+// worker Saga: will be fired on "CHANGE_DRIVE_STATUS" actions
+function* changeDriveStatus(action) {
+  const dayId = action.payload.dayId;
+  const userId = action.payload.userId;
+  const newDriveStatus = !action.payload.driveStatus;
+  try {
+    // if changing to true, set driver to user; if changing to false, clear the driver 
+    const newDriver = newDriveStatus ? userId : null;
+    yield axios.put(`/api/day/drive/${dayId}`, {driver:newDriver});
+    yield fetchDay({payload:dayId});
+  } catch (error) {
+    console.log('Day get request failed', error);
   }
 }
 
 function* daySaga() {
   yield takeLatest('FETCH_DAY', fetchDay);
+  yield takeLatest('CHANGE_RIDE_STATUS', changeRideStatus);
+  yield takeLatest('CHANGE_DRIVE_STATUS', changeDriveStatus);
 }
 
 export default daySaga;

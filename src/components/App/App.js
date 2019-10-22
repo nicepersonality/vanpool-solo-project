@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,11 +6,11 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import moment from 'moment';
 
-import Nav from '../Nav/Nav';
+import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
@@ -18,6 +18,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import Home from '../Home/Home';
 import Day from '../Day/Day';
 
 import 'cutestrap/dist/css/cutestrap.min.css';
@@ -34,8 +35,8 @@ class App extends Component {
     }
   }
 
-  componentDidMount () {
-    this.props.dispatch({type: 'FETCH_USER'});
+  componentDidMount() {
+    this.props.dispatch({ type: 'FETCH_USER' });
     const now = moment();
     this.setToday(now);
   }
@@ -60,8 +61,8 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
-          <Nav />
+        <Header />
+        <main>
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/home" />
@@ -79,6 +80,11 @@ class App extends Component {
             <ProtectedRoute
               exact
               path="/home"
+              component={Home}
+            />
+            <ProtectedRoute
+              exact
+              path="/user"
               component={UserPage}
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
@@ -96,10 +102,11 @@ class App extends Component {
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>
-          <Footer />
-        </div>
+        </main>
+        <Footer />
       </Router>
-  )}
+    )
+  }
 }
 
 export default connect()(App);

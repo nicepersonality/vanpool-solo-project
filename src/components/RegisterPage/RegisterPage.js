@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PhoneInput from 'react-phone-number-input';
 
 class RegisterPage extends Component {
   state = {
@@ -83,11 +84,11 @@ class RegisterPage extends Component {
           </div>
           <div>
             <label htmlFor="cell" className="field">
-              <input
-                type="text"
+              <PhoneInput
+                country="US" // remove this line for international support
                 name="cell"
                 value={this.state.cell}
-                onChange={this.handleInputChangeFor('cell')}
+                onChange={cell => this.setState({ cell })}
               />
               <span className="label">Cell number</span>
             </label>
