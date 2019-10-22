@@ -50,6 +50,11 @@ class Day extends Component {
     }
   }
 
+  dayFormat = (format) => {
+    // a shorter way to render (parts of) the current day
+    return moment(this.state.currentDay, 'YYYYMMDD').format(format);
+  }
+
   setDayState(dayId) {
     this.props.dispatch({
       type: 'FETCH_DAY',
@@ -80,9 +85,9 @@ class Day extends Component {
       <div className="Day-component">
         <div className="dayDetails">
           <h2 className="currentDay">
-            <span className="currentMon">{moment(this.state.currentDay, 'YYYYMMDD').format('MMM')}</span> 
-            <span className="currentDate">{moment(this.state.currentDay, 'YYYYMMDD').format('DD')}</span> 
-            <span className="currentDow">{moment(this.state.currentDay, 'YYYYMMDD').format('ddd')}</span>
+            <span className="currentDow">{this.dayFormat('ddd')}</span>
+            <span className="currentMon">{this.dayFormat('MMM')}</span> 
+            <span className="currentDate">{this.dayFormat('DD')}</span> 
           </h2>
           <div className="editDayLink">
             {
