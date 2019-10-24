@@ -1,10 +1,11 @@
 const express = require('express');
 const pool = require('../modules/pool');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 const router = express.Router();
 
 // Gets day information about the specified date
-router.get('/:id', (req, res) => {
+router.get('/:id', rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT * FROM "days"
     WHERE "id" = $1;
@@ -20,7 +21,7 @@ router.get('/:id', (req, res) => {
 })
 
 // Returns users riding on specified date
-router.get('/riders/:id', (req, res) => {
+router.get('/riders/:id', rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT "user".id, "user".username, "user".display_name, "user".cell FROM "days"
     JOIN "user_days" ON "days".id = "user_days".days_id
@@ -38,7 +39,7 @@ router.get('/riders/:id', (req, res) => {
 })
 
 // Returns users riding on specified date
-router.get('/driver/:id', (req, res) => {
+router.get('/driver/:id', rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT "user".id, "user".username, "user".display_name, "user".cell FROM "days"
     JOIN "user" ON "user".id = "days".driver_id
@@ -55,7 +56,7 @@ router.get('/driver/:id', (req, res) => {
 })
 
 // Returns whether or not a specified day+user junction row exists
-router.get('/user/:dateId/:userId', (req, res) => {
+router.get('/user/:dateId/:userId', rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT COUNT(*) FROM "user_days"
     WHERE "days_id" = $1 AND "user_id" = $2;
@@ -74,7 +75,7 @@ router.get('/user/:dateId/:userId', (req, res) => {
 })
 
 // Create a row in the junction table with the riding status
-router.post('/ride/:dateId/:userId', (req, res) => {
+router.post('/ride/:dateId/:userId', rejectUnauthenticated, (req, res) => {
   const queryText = `
     INSERT INTO "user_days" (user_id, days_id, riding)
     VALUES ($1, $2, $3);
@@ -89,7 +90,7 @@ router.post('/ride/:dateId/:userId', (req, res) => {
 })
 
 // Modify a row in the junction table with the riding status
-router.put('/ride/:dateId/:userId', (req, res) => {
+router.put('/ride/:dateId/:userId', rejectUnauthenticated, (req, res) => {
   const queryText = `
     UPDATE "user_days"
     SET "riding" = $1
@@ -105,7 +106,7 @@ router.put('/ride/:dateId/:userId', (req, res) => {
 })
 
 // Modify a row in the days table with a new driver (or null)
-router.put('/drive/:dateId', (req, res) => {
+router.put('/drive/:dateId', rejectUnauthenticated, (req, res) => {
   const queryText = `
     UPDATE "days"
     SET "driver_id" = $1
@@ -121,7 +122,7 @@ router.put('/drive/:dateId', (req, res) => {
 })
 
 // Handles POST request with new date data
-router.post('/add', (req, res, next) => {
+router.post('/add', rejectUnauthenticated, (req, res, next) => {
   const id = req.body.id;
   const date = req.body.date;
   const year = req.body.year;
