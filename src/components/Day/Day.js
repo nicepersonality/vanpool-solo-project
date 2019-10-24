@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { formatPhoneNumber } from 'react-phone-number-input';
+import { FaForward, FaBackward } from 'react-icons/fa';
 
 import DayEdit from '../DayEdit/DayEdit';
 
@@ -97,21 +98,18 @@ class Day extends Component {
             <span className="currentMon">{this.dayFormat('MMM')}</span> 
             <span className="currentDate">{this.dayFormat('DD')}</span> 
           </h2>
-          <div className="editDay">
-            {
-              this.props.location.hash === '#edit'
-                &&
-              <DayEdit currentDay={this.state.currentDay} />
-            }
-          </div>
           <div className="prevDayLink">
-            <Link to={{ pathname: '/day/' + this.state.prevDay }}>Previous</Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward/><b>Previous</b></Link>
           </div>
           <div className="nextDayLink">
-            <Link to={{ pathname: '/day/' + this.state.nextDay }}>Next</Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward/></Link>
           </div>
-          <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders !== 1 && 's' /* pluralize unless it's 1 */}</div>
+          <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders.length !== 1 && 's' /* pluralize unless it's 1 */}</div>
           <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
+          {
+            this.props.location.hash === '#edit' &&
+            <DayEdit currentDay={this.state.currentDay} />
+          }
         </div>
         <div className="userRiding">
           {this.state.user}: <strong>{this.state.userRiding ? 'IN' : 'OUT'}</strong>
@@ -130,8 +128,8 @@ class Day extends Component {
         {/* <hr /><pre className="wrapper -thin">this.state=
         {JSON.stringify(this.state, null, 2)}</pre> */}
 
-        {/* <hr /><pre className="wrapper -thin">this.props=
-        {JSON.stringify(this.props, null, 2)}</pre> */}
+        <hr /><pre className="wrapper -thin">this.props=
+        {JSON.stringify(this.props, null, 2)}</pre>
       </div>
     );
   }

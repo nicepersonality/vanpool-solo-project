@@ -1,8 +1,23 @@
 /* load Google fonts */
 @import url('https://fonts.googleapis.com/css?family=Cinzel:700|Libre+Franklin:300,500,800&display=swap&subset=latin-ext');
 
+/* Style components from dependent libraries */
 .react-phone-number-input__country {
     display: none;
+}
+.svg-combo, .svg-combo.button {
+    font-size: 1.5rem;
+    line-height: 1;
+    vertical-align: center;
+}
+.svg-combo.button {
+    font-size: 1.375rem;
+    line-height: 1.625rem;
+}
+.svg-combo b {
+    display: inline-block;
+    width: 0;
+    overflow: hidden;
 }
 
 /* Cutestrap configuration */
@@ -168,4 +183,64 @@ header p {
     font-weight: 500;
     font-size: 3rem;
     line-height: 1;
+}
+
+/* Day details */
+.dayDetails {
+    display: grid;
+    width: 100%;
+    grid-gap: 0.25rem;
+    grid-template:
+      "prev date next riders" 1fr
+      "prev date next driver" 1fr
+      "prev date next edit"   2fr
+     / 2rem 6rem 2rem 1fr;
+    margin: 0.75rem 0 1.5rem;
+}
+.dayDetails .currentDay {
+    grid-area: date;
+    margin: auto;
+}
+.dayDetails .prevDayLink {
+    grid-area: prev;
+    margin: auto;
+}
+.dayDetails .nextDayLink {
+    grid-area: next;
+    margin: auto;
+}
+.dayDetails .riderCount {
+    grid-area: riders;
+    padding: 0.25rem 0 0 0.5rem;
+}
+.dayDetails .driverInfo {
+    grid-area: driver;
+    padding: 0.25rem 0 0 0.5rem;
+}
+.dayDetails .DayEdit-component {
+    grid-area: edit;
+    padding: 0 0 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* edit buttons */
+.DayEdit-component .button {
+    --background-color: var(--color-neutral-tint3);
+    --background-color-hover: var(--color-accent-tint1);
+    --border-color: var(--color-neutral-shade1);
+    --border-color-hover: var(--color-accent-shade1);
+    --text-color: var(--color-neutral-shade2);
+    --text-color-hover: var(--color-neutral-shade3);
+}
+.DayEdit-component .button.isRiding,
+.DayEdit-component .button.isDriving {
+    --background-color: var(--color-accent-shade1);
+    --background-color-hover: var(--color-primary-tint1);
+    --border-color: var(--color-accent-shade1);
+    --border-color-hover: var(--color-primary-shade1);
+    --text-color: var(--color-neutral-tint4);
+    --text-color-hover: var(--color-neutral-shade3);
 }
