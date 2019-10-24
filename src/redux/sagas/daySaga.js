@@ -25,6 +25,36 @@ function* fetchDay(action) {
   }
 }
 
+// worker Saga: will be fired on "FETCH_DAY_STATS" actions
+function* fetchDayStats(action) {
+  const dayId = action.payload.date;
+  const userId = action.payload.userId
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+
+    const ridersResponse = yield axios.get(`/api/day/riders/${dayId}`, config);
+    const driverResponse = yield axios.get(`/api/day/driver/${dayId}`, config);
+
+    const riderCount = ridersResponse.data.length;
+    const userIsRiding = ridersResponse.data.find( rider => rider.id === userId ) ? true : false;
+    const hasDriver = (driverResponse.data.length > 0);
+
+    const dayStats = {
+      [dayId]: {
+        riderCount: riderCount,
+        userIsRiding: userIsRiding,
+        hasDriver: hasDriver
+      }
+    }
+    yield put({ type: 'ADD_DAY_STATS', payload: dayStats });
+  } catch (error) {
+    console.log('Day stats get request failed', error);
+  }
+}
+
 // worker Saga: will be fired on "CHANGE_RIDE_STATUS" actions
 function* changeRideStatus(action) {
   const dayId = action.payload.dayId;
@@ -46,7 +76,7 @@ function* changeRideStatus(action) {
     }
     yield fetchDay({payload:dayId});
   } catch (error) {
-    console.log('Day get request failed', error);
+    console.log('Change ride request failed', error);
   }
 }
 
@@ -61,12 +91,13 @@ function* changeDriveStatus(action) {
     yield axios.put(`/api/day/drive/${dayId}`, {driver:newDriver});
     yield fetchDay({payload:dayId});
   } catch (error) {
-    console.log('Day get request failed', error);
+    console.log('Change drive request failed', error);
   }
 }
 
 function* daySaga() {
   yield takeLatest('FETCH_DAY', fetchDay);
+  yield takeLatest('FETCH_DAY_STATS', fetchDayStats);
   yield takeLatest('CHANGE_RIDE_STATUS', changeRideStatus);
   yield takeLatest('CHANGE_DRIVE_STATUS', changeDriveStatus);
 }
