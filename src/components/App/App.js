@@ -99,6 +99,12 @@ class App extends Component {
               path="/day/:dayId"
               component={Day}
             />
+            {/* If no day is specified, it pulls the current day */}
+            <ProtectedRoute
+              exact
+              path="/day"
+              component={Home}
+            />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>
