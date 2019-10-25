@@ -194,7 +194,7 @@ header p {
       "prev date next riders" 1fr
       "prev date next driver" 1fr
       "prev date next edit"   2fr
-     / 2rem 6rem 2rem 1fr;
+     / auto 6rem auto 1fr;
     margin: 0.75rem 0 1.5rem;
 }
 .dayDetails .currentDay {
@@ -208,6 +208,11 @@ header p {
 .dayDetails .nextDayLink {
     grid-area: next;
     margin: auto;
+}
+.dayDetails .prevDayLink a,
+.dayDetails .nextDayLink a {
+    display: block;
+    padding: 2rem 0.25rem;
 }
 .dayDetails .riderCount {
     grid-area: riders;
