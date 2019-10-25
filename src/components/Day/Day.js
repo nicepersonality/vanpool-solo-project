@@ -6,6 +6,7 @@ import { formatPhoneNumber } from 'react-phone-number-input';
 import { FaForward, FaBackward } from 'react-icons/fa';
 
 import DayEdit from '../DayEdit/DayEdit';
+import DayDetails from '../DayDetails/DayDetails';
 
 const classNames = require('classnames');
 
@@ -18,18 +19,15 @@ class Day extends Component {
     driver: 'Nobody',
     user: this.props.store.user.display_name,
     userRiding: undefined,
-    edit: false
   }
 
   componentDidMount() {
     this.setDayState(this.state.currentDay);
-    console.log('this.props.location.hash', this.props.location.hash);
-    
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.store.day.riders !== this.props.store.day.riders) {
-      const newRiders = this.props.store.day.riders;
+    if (prevProps.store.day[this.state.currentDay] !== this.props.store.day[this.state.currentDay]) {
+      const newRiders = this.props.store.day[this.state.currentDay].riders;
       const userRiding = newRiders.find(
         rider => rider.id === this.props.store.user.id
         ) ? true : false;
@@ -37,10 +35,8 @@ class Day extends Component {
         riders: newRiders,
         userRiding: userRiding
       });
-    }
-    if (prevProps.store.day.driver !== this.props.store.day.driver) {
       // ternary operator here, in case there's no driver
-      const newDriver = this.props.store.day.driver ? this.props.store.day.driver.display_name : 'Nobody';
+      const newDriver = this.props.store.day[this.state.currentDay].driver ? this.props.store.day[this.state.currentDay].driver.display_name : 'Nobody';
       this.setState({
         driver: newDriver
       });
@@ -61,7 +57,7 @@ class Day extends Component {
   setDayState(dayId) {
     this.props.dispatch({
       type: 'FETCH_DAY',
-      payload: dayId
+      payload: {date: this.state.currentDay, userId: this.props.store.user.id}
     });
     const dayOfWeek = moment(dayId, 'YYYYMMDD').weekday();
     // calculate the previous and next days, skipping weekends
@@ -111,6 +107,10 @@ class Day extends Component {
             <DayEdit currentDay={this.state.currentDay} />
           }
         </div>
+        {/* <DayDetails
+          currentDay={this.state.currentDay}
+          displayDayNav="true"
+        /> */}
         <div className="userRiding">
           {this.state.user}: <strong>{this.state.userRiding ? 'IN' : 'OUT'}</strong>
         </div>
@@ -125,8 +125,8 @@ class Day extends Component {
           })}
         </ul>
 
-        {/* <hr /><pre className="wrapper -thin">this.state=
-        {JSON.stringify(this.state, null, 2)}</pre> */}
+        <hr /><pre className="wrapper -thin">this.state=
+        {JSON.stringify(this.state, null, 2)}</pre>
 
         <hr /><pre className="wrapper -thin">this.props=
         {JSON.stringify(this.props, null, 2)}</pre>

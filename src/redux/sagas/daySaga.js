@@ -3,32 +3,8 @@ import axios from 'axios';
 
 // worker Saga: will be fired on "FETCH_DAY" actions
 function* fetchDay(action) {
-  const dayId = action.payload;
-  try {
-    const config = {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    };
-
-    const dayResponse = yield axios.get(`/api/day/${dayId}`, config);
-    const ridersResponse = yield axios.get(`/api/day/riders/${dayId}`, config);
-    const driverResponse = yield axios.get(`/api/day/driver/${dayId}`, config);
-
-    const dayDetails = {
-      ...dayResponse.data[0],
-      riders: ridersResponse.data,
-      driver: driverResponse.data[0]
-    }
-    yield put({ type: 'SET_DAY', payload: dayDetails });
-  } catch (error) {
-    console.log('Day get request failed', error);
-  }
-}
-
-// worker Saga: will be fired on "FETCH_DAY_STATS" actions
-function* fetchDayStats(action) {
   const dayId = action.payload.date;
-  const userId = action.payload.userId
+  const userId = action.payload.userId;
   try {
     const config = {
       headers: { 'Content-Type': 'application/json' },
@@ -42,16 +18,18 @@ function* fetchDayStats(action) {
     const userIsRiding = ridersResponse.data.find( rider => rider.id === userId ) ? true : false;
     const hasDriver = (driverResponse.data.length > 0);
 
-    const dayStats = {
+    const dayDetails = {
       [dayId]: {
         riderCount: riderCount,
+        riders: ridersResponse.data,
         userIsRiding: userIsRiding,
-        hasDriver: hasDriver
+        hasDriver: hasDriver,
+        driver: driverResponse.data[0]
       }
     }
-    yield put({ type: 'ADD_DAY_STATS', payload: dayStats });
+    yield put({ type: 'SET_DAY', payload: dayDetails });
   } catch (error) {
-    console.log('Day stats get request failed', error);
+    console.log('Day get request failed', error);
   }
 }
 
@@ -97,7 +75,6 @@ function* changeDriveStatus(action) {
 
 function* daySaga() {
   yield takeLatest('FETCH_DAY', fetchDay);
-  yield takeLatest('FETCH_DAY_STATS', fetchDayStats);
   yield takeLatest('CHANGE_RIDE_STATUS', changeRideStatus);
   yield takeLatest('CHANGE_DRIVE_STATUS', changeDriveStatus);
 }

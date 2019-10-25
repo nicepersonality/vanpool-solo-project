@@ -8,7 +8,6 @@ const classNames = require('classnames');
 
 class DayEdit extends Component {
   state = {
-    currentDay: this.props.currentDay,
     isRiding: false,
     isDriving: false,
     noDriver: false
@@ -18,20 +17,20 @@ class DayEdit extends Component {
     // this.setButtonStatus();
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.store !== this.props.store) {
+    if (prevProps.store.day[this.props.currentDay] !== this.props.store.day[this.props.currentDay]) {
       this.setButtonStatus();
     }
   }
 
   setButtonStatus = () => {
-    const newRiders = this.props.store.day.riders;
+    const newRiders = this.props.store.day[this.props.currentDay].riders;
     const isRiding = newRiders.find(rider => rider.id === this.props.store.user.id)
       ? true
       : false;
-    const isDriving = this.props.store.day.driver
-      ? (this.props.store.day.driver.id === this.props.store.user.id)
+    const isDriving = this.props.store.day[this.props.currentDay].driver
+      ? (this.props.store.day[this.props.currentDay].driver.id === this.props.store.user.id)
       : false;
-    const noDriver = (this.props.store.day.driver_id === null)
+    const noDriver = (this.props.store.day[this.props.currentDay].driver_id === null)
     this.setState({
       isRiding: isRiding,
       isDriving: isDriving,
@@ -51,7 +50,7 @@ class DayEdit extends Component {
           onClick={() => this.props.dispatch({
             type: 'CHANGE_RIDE_STATUS',
             payload: {
-              dayId: this.state.currentDay, userId: this.props.store.user.id, rideStatus: this.state.isRiding
+              dayId: this.props.currentDay, userId: this.props.store.user.id, rideStatus: this.state.isRiding
             }
           }
         )}>
@@ -73,7 +72,7 @@ class DayEdit extends Component {
           onClick={() => this.props.dispatch({
             type: 'CHANGE_DRIVE_STATUS',
             payload: {
-              dayId: this.state.currentDay, userId: this.props.store.user.id, driveStatus: this.state.isDriving
+              dayId: this.props.currentDay, userId: this.props.store.user.id, driveStatus: this.state.isDriving
             }
           }
         )}>
