@@ -16,6 +16,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
 import AboutPage from '../AboutPage/AboutPage';
+import AdminPage from '../AdminPage/AdminPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Home from '../Home/Home';
@@ -62,7 +63,7 @@ class App extends Component {
     return (
       <Router>
         <Header />
-        <main>
+        <main className="wrapper -thin">
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/home" />
@@ -86,6 +87,11 @@ class App extends Component {
               exact
               path="/user"
               component={UserPage}
+            />
+            <ProtectedRoute
+              exact
+              path="/admin"
+              component={AdminPage}
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will see the info page instead. */}
