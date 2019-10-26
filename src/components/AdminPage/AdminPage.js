@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import AdminVanRte from '../AdminVanRte/AdminVanRte'
 
 class AdminPage extends Component {
   componentDidMount() {
@@ -17,12 +18,9 @@ class AdminPage extends Component {
   }
 
   checkEditAccess() {
+    console.log('this.props.location.hash:', this.props.location.hash)
     if (this.props.location.hash === '#edit') {
-      if ((this.props.store.access_level > 2)) {
         this.setState({ editMode: true });
-      } else {
-        this.props.history.push({ pathname: this.props.location.pathname, hash: '' });
-      }
     } else {
       this.setState({ editMode: false });
     }
@@ -40,18 +38,17 @@ class AdminPage extends Component {
   render() {
     return (
       <div className="AdminPage-component">
+        <h2>Administration</h2>
         {/* Make sure the user is authorized */}
         {(this.props.store.user.access_level > 2)
           ? <div className="adminTools">
-            <p>Admin controls go here</p>
+            <AdminVanRte />
           </div>
           : <div className="adminTools -unauthorized">
             <h3>Unauthorized</h3>
             <p>Sorry! You must be an administrator to view this page.</p>
           </div>
         }
-        <hr /><pre className="wrapper -thin">this.props=
-        {JSON.stringify(this.props, null, 2)}</pre>
       </div>
     );
   }
