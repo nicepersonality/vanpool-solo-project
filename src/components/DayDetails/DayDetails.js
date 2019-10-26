@@ -19,27 +19,29 @@ class DayDetails extends Component {
   }
 
   componentDidMount() {
-    console.log('DayDetails did mount!')
+    console.log('DayDetails did mount!');
+    console.log('this.props.currentDay:', this.props.currentDay);
     this.props.dispatch({
       type: 'FETCH_DAY',
-        payload: {date: this.props.currentDay, userId: this.props.store.user.id}
-        // payload: this.props.currentDay
+      payload: { date: this.props.currentDay, userId: this.props.store.user.id }
     });
+
+    this.setDayState(this.props.currentDay);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.store.day[this.props.currentDay] && (prevProps.store.day[this.props.currentDay] !== this.props.store.day[this.props.currentDay])) {
+    if ((prevProps.store.day[this.props.currentDay] !== this.props.store.day[this.props.currentDay])) {
       console.log('DayDetails did update!')
       console.log('this.props.currentDay:', this.props.currentDay);
-      this.props.dispatch({
-        type: 'FETCH_DAY',
-        payload: {date: this.props.currentDay, userId: this.props.store.user.id}
-        // payload: this.props.currentDay
-      });
+      // this.props.dispatch({
+      //   type: 'FETCH_DAY',
+      //   payload: {date: this.props.currentDay, userId: this.props.store.user.id}
+      //   // payload: this.props.currentDay
+      // });
       const newRiders = this.props.store.day[this.props.currentDay].riders;
       const userRiding = newRiders.find(
         rider => rider.id === this.props.store.user.id
-        ) ? true : false;
+      ) ? true : false;
       this.setState({
         riders: newRiders,
         userRiding: userRiding
@@ -50,12 +52,13 @@ class DayDetails extends Component {
         driver: newDriver
       });
     }
-    if (prevProps.match.params.dayId !== this.props.match.params.dayId) {
-      this.setState({
-        currentDay: this.props.match.params.dayId
-      });
-      this.setDayState(this.props.match.params.dayId);
-    }
+    // if (prevProps.match.params.dayId !== this.props.match.params.dayId) {
+    //   this.setState({
+    //     currentDay: this.props.match.params.dayId
+    //   }, () => {
+    //     this.setDayState(this.props.match.params.dayId)
+    //   });
+    // }
   }
 
   dayFormat = (format) => {
@@ -86,6 +89,8 @@ class DayDetails extends Component {
   }
 
   setDayState(dayId) {
+    console.log('in DayDetails -> setDayState');
+
     this.props.dispatch({
       type: 'FETCH_DAY',
       payload: {date: this.props.currentDay, userId: this.props.store.user.id}
@@ -104,51 +109,63 @@ class DayDetails extends Component {
     } else {
       nextDay = moment(dayId, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD');
     }
+
+    const newRiders = this.props.store.day[this.props.currentDay].riders;
+    const userRiding = newRiders.find(
+      rider => rider.id === this.props.store.user.id
+    ) ? true : false;
+    // ternary operator here, in case there's no driver
+    const newDriver = this.props.store.day[this.props.currentDay].driver ? this.props.store.day[this.props.currentDay].driver.display_name : 'Nobody';
     this.setState({
       prevDay: prevDay,
-      nextDay: nextDay
+      nextDay: nextDay,
+      riders: newRiders,
+      userRiding: userRiding,
+      driver: newDriver
     });
   }
 
   render() {
-    return (
-        <div className="DayDetails-component dayDetails">
-          <h2 className={classNames(
-            'currentDay',
-            {
-              'in': this.state.userRiding,
-              'noDriver': this.state.driver === 'Nobody'
-            }
-          )}
-            onClick={this.handleDayClick}
-          >
-            <span className="currentDow">{this.dayFormat('ddd')}</span>
-            <span className="currentMon">{this.dayFormat('MMM')}</span>
-            <span className="currentDate">{this.dayFormat('DD')}</span>
-          </h2>
+    return (<>
+      <div className="DayDetails-component dayDetails">
+        <h2 className={classNames(
+          'currentDay',
           {
-            this.props.displayDayNav &&
-            <>
+            'in': this.state.userRiding,
+            'noDriver': this.state.driver === 'Nobody'
+          }
+        )}
+          onClick={this.handleDayClick}
+        >
+          <span className="currentDow">{this.dayFormat('ddd')}</span>
+          <span className="currentMon">{this.dayFormat('MMM')}</span>
+          <span className="currentDate">{this.dayFormat('DD')}</span>
+        </h2>
+        {
+          this.props.displayDayNav &&
+          <>
             <div className="prevDayLink">
               <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward /><b>Previous</b></Link>
             </div>
             <div className="nextDayLink">
               <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward /></Link>
             </div>
-            </>
-          }
-          <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders.length !== 1 && 's' /* pluralize unless it's 1 */}</div>
-          <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
-          {
-            this.props.location.hash === '#edit' &&
-            <DayEdit currentDay={this.props.currentDay} />
-          }
-        {/* <hr /><pre className="wrapper -thin">this.state=
-        {JSON.stringify(this.state, null, 2)}</pre> */}
-
-        {/* <hr /><pre className="wrapper -thin">this.props=
-        {JSON.stringify(this.props, null, 2)}</pre> */}
+          </>
+        }
+        <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders.length !== 1 && 's' /* pluralize unless it's 1 */}</div>
+        <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
+        {
+          this.props.location.hash === '#edit' &&
+          <DayEdit currentDay={this.props.currentDay} />
+        }
       </div>
+      <div>
+        <hr /><pre className="wrapper -thin">DayDetail's this.state=
+        {JSON.stringify(this.state, null, 2)}</pre>
+
+        <hr /><pre className="wrapper -thin">DayDetail's this.props=
+        {JSON.stringify(this.props, null, 2)}</pre>
+      </div></>
     );
   }
 }

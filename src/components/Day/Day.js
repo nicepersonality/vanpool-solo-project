@@ -30,7 +30,7 @@ class Day extends Component {
       const newRiders = this.props.store.day[this.state.currentDay].riders;
       const userRiding = newRiders.find(
         rider => rider.id === this.props.store.user.id
-        ) ? true : false;
+      ) ? true : false;
       this.setState({
         riders: newRiders,
         userRiding: userRiding
@@ -44,8 +44,9 @@ class Day extends Component {
     if (prevProps.match.params.dayId !== this.props.match.params.dayId) {
       this.setState({
         currentDay: this.props.match.params.dayId
+      }, () => {
+        this.setDayState(this.props.match.params.dayId)
       });
-      this.setDayState(this.props.match.params.dayId);
     }
   }
 
@@ -57,7 +58,7 @@ class Day extends Component {
   setDayState(dayId) {
     this.props.dispatch({
       type: 'FETCH_DAY',
-      payload: {date: this.state.currentDay, userId: this.props.store.user.id}
+      payload: { date: this.state.currentDay, userId: this.props.store.user.id }
     });
     const dayOfWeek = moment(dayId, 'YYYYMMDD').weekday();
     // calculate the previous and next days, skipping weekends
@@ -91,14 +92,14 @@ class Day extends Component {
             }
           )}>
             <span className="currentDow">{this.dayFormat('ddd')}</span>
-            <span className="currentMon">{this.dayFormat('MMM')}</span> 
-            <span className="currentDate">{this.dayFormat('DD')}</span> 
+            <span className="currentMon">{this.dayFormat('MMM')}</span>
+            <span className="currentDate">{this.dayFormat('DD')}</span>
           </h2>
           <div className="prevDayLink">
-            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward/><b>Previous</b></Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward /><b>Previous</b></Link>
           </div>
           <div className="nextDayLink">
-            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward/></Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward /></Link>
           </div>
           <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders.length !== 1 && 's' /* pluralize unless it's 1 */}</div>
           <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
@@ -107,15 +108,15 @@ class Day extends Component {
             <DayEdit currentDay={this.state.currentDay} />
           }
         </div>
-        {/* <DayDetails
-          currentDay={this.state.currentDay}
-          displayDayNav="true"
-        /> */}
+        <DayDetails
+          currentDay="20191021"
+          displayDayNav="false"
+        />
         <div className="userRiding">
           {this.state.user}: <strong>{this.state.userRiding ? 'IN' : 'OUT'}</strong>
         </div>
         <ul className="riderList">
-        {this.state.riders.map((rider) => {
+          {this.state.riders.map((rider) => {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
