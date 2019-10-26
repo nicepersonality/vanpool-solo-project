@@ -40,8 +40,6 @@ class UserPage extends Component {
       type: 'UPDATE_USER',
       payload: {
         id: this.state.user_id,
-        username: this.state.username,
-        password: this.state.password,
         full_name: this.state.full_name,
         display_name: this.state.display_name,
         cell: this.state.cell
@@ -84,6 +82,7 @@ class UserPage extends Component {
                   <input
                     type="email"
                     name="username"
+                    disabled
                     value={this.state.username}
                     onChange={this.handleInputChangeFor('username')}
                   />
