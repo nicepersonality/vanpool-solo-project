@@ -39,6 +39,7 @@ class UserPage extends Component {
     this.props.dispatch({
       type: 'UPDATE_USER',
       payload: {
+        id: this.state.user_id,
         username: this.state.username,
         password: this.state.password,
         full_name: this.state.full_name,

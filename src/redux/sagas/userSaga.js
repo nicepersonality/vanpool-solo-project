@@ -24,8 +24,22 @@ function* fetchUser() {
   }
 }
 
+// worker Saga: will be fired on "UPDATE_USER" actions
+function* updateUser(action) {
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.put('/api/user', action.payload, config);
+  } catch (error) {
+    console.log('User update request failed', error);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('UPDATE_USER', updateUser);
 }
 
 export default userSaga;
