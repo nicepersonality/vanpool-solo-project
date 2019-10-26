@@ -27,6 +27,9 @@ class UserPage extends Component {
     if (prevProps.match !== this.props.match) {
       this.checkEditAccess();
     }
+    if (prevProps.store.user !== this.props.store.user) {
+      this.checkEditAccess();
+    }
   }
 
   handleInputChangeFor = propertyName => (event) => {
@@ -55,6 +58,8 @@ class UserPage extends Component {
       } else {
         this.props.history.push({ pathname: this.props.location.pathname, hash: '' });
       }
+    } else {
+      this.setState({ editMode: false });
     }
   }
 

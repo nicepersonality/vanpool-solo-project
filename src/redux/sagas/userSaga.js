@@ -32,6 +32,7 @@ function* updateUser(action) {
       withCredentials: true,
     };
     yield axios.put('/api/user', action.payload, config);
+    yield fetchUser();
   } catch (error) {
     console.log('User update request failed', error);
   }
