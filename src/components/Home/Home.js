@@ -7,13 +7,15 @@ class Home extends Component {
     const now = moment();
     const dayId = now.format('YYYYMMDD');
     
-    if (now.weekday() > 0 && now.weekday() < 6) {
-      // if it's Mon-Fri, redirect to today's view
-      return <Redirect to={{ pathname: '/day/' + dayId }} />
-    } else {
-      // redirect to the user page
-      return <Redirect to='/user' />
+    if (now.weekday() === 0) {
+      // if it's Sunday, add a day
+      return <Redirect to={{ pathname: '/day/' + now.add(1, 'days').format('YYYYMMDD') }} />
+    } else if (now.weekday === 6) {
+      // if it's Saturday, add two days
+      return <Redirect to={{ pathname: '/day/' + now.add(2, 'days').format('YYYYMMDD') }} />
     }
+    // otherwise, show today's info
+    return <Redirect to={{ pathname: '/day/' + dayId }} />
   }
 }
 

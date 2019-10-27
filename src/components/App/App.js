@@ -106,6 +106,12 @@ class App extends Component {
               path="/day/:dayId"
               component={Day}
             />
+            {/* If the user doesn't specify a day, redirect to today (or next Monday). */}
+            <ProtectedRoute
+              exact
+              path="/day"
+              component={Home}
+            />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>
