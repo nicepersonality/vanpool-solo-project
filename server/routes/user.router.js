@@ -17,7 +17,7 @@ router.get('/all', rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT * FROM "user"
     WHERE "access_level" < 99
-    ORDER BY "full_name"
+    ORDER BY "access_level" DESC, "full_name"
   `;
   pool.query(queryText)
     .then((result) => {
