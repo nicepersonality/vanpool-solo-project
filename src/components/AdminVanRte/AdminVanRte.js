@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom';
 
 class AdminVanRte extends Component {
   state = {
-    name: '',
-    description: '',
-    max_seats: 0,
+    name: this.props.store.route[0].name,
+    description: this.props.store.route[0].description,
+    max_seats: this.props.store.route[0].max_seats,
   }
   componentDidMount() {
     this.checkEditAccess();
