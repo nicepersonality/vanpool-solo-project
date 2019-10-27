@@ -12,6 +12,22 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
+router.get('/all', rejectUnauthenticated, (req, res) => {
+  // Send back user object from the session (previously queried from the database)
+  const queryText = `
+    SELECT * FROM "user"
+    WHERE "access_level" < 99
+    ORDER BY "full_name"
+  `;
+  pool.query(queryText)
+    .then((result) => {
+      res.send(result.rows);
+    }).catch((error) => {
+      console.log('Error fetching user list', error);
+      res.sendStatus(500);
+    });
+});
+
 router.put('/', rejectUnauthenticated, (req, res) => {
   const userUpdate = req.body;
   queryText = `
