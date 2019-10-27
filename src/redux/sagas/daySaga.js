@@ -34,9 +34,11 @@ function* fetchDayStats(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
-
+    console.log('action.payload:', action.payload);
     const ridersResponse = yield axios.get(`/api/day/riders/${dayId}`, config);
+    console.log('ridersResponse:', ridersResponse);
     const driverResponse = yield axios.get(`/api/day/driver/${dayId}`, config);
+    console.log('driverResponse:', driverResponse);
 
     const riderCount = ridersResponse.data.length;
     const userIsRiding = ridersResponse.data.find( rider => rider.id === userId ) ? true : false;
