@@ -69,10 +69,41 @@ router.put('/access', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put('/access', rejectUnauthenticated, (req, res) => {
+  const userUpdate = req.body;
+  console.log('req.body:', req.body);
+  queryText = `
+    UPDATE "user"
+    SET "access_level" = $1
+    WHERE "id" = $2;
+  `;
+  queryValues = [
+    parseInt(userUpdate.access_level),
+    userUpdate.userId
+  ];
+  pool.query(queryText, queryValues)
+    .then(() => { res.sendStatus(200); })
+    .catch((error) => {
+      console.log('Error completing PUT user query', error);
+      res.sendStatus(500);
+    });
+});
+
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  let user = req.params.id;
+  let queryText = `DELETE FROM "user" WHERE id=$1;`;
+  pool.query(queryText, [user])
+    .then(() => { res.sendStatus(200); })
+    .catch((error) => {
+      console.log('Error deleting user', error);
+      res.sendStatus(500);
+    });
+});
+
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post('/register', (req, res, next) => {  
+router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   const full_name = req.body.full_name;
