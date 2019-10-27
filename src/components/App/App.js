@@ -16,6 +16,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
 import AboutPage from '../AboutPage/AboutPage';
+import AdminPage from '../AdminPage/AdminPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Home from '../Home/Home';
@@ -37,6 +38,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.dispatch({ type: 'FETCH_USER' });
+    this.props.dispatch({ type: 'FETCH_ROUTE' });
     const now = moment();
     this.setToday(now);
   }
@@ -62,7 +64,7 @@ class App extends Component {
     return (
       <Router>
         <Header />
-        <main>
+        <main className="wrapper -thin">
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/home" />
@@ -87,6 +89,11 @@ class App extends Component {
               path="/user"
               component={UserPage}
             />
+            <ProtectedRoute
+              exact
+              path="/admin"
+              component={AdminPage}
+            />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will see the info page instead. */}
             <ProtectedRoute
@@ -99,7 +106,7 @@ class App extends Component {
               path="/day/:dayId"
               component={Day}
             />
-            {/* If no day is specified, it pulls the current day */}
+            {/* If the user doesn't specify a day, redirect to today (or next Monday). */}
             <ProtectedRoute
               exact
               path="/day"
