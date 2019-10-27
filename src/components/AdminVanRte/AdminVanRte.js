@@ -4,12 +4,20 @@ import { withRouter } from 'react-router-dom';
 
 class AdminVanRte extends Component {
   state = {
-    name: this.props.store.route[0].name,
-    description: this.props.store.route[0].description,
-    max_seats: this.props.store.route[0].max_seats,
+    name: 'Loading…',
+    description: 'Loading…',
+    max_seats: 0
   }
   componentDidMount() {
+    this.props.dispatch({ type: 'FETCH_ROUTE' });
     this.checkEditAccess();
+    if (this.props.store.route[0]) {
+      this.setState({
+        name: this.props.store.route[0].name,
+        description: this.props.store.route[0].description,
+        max_seats: this.props.store.route[0].max_seats,
+      });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -18,6 +26,13 @@ class AdminVanRte extends Component {
     }
     if (prevProps.store.user !== this.props.store.user) {
       this.checkEditAccess();
+    }
+    if (prevProps.store.route !== this.props.store.route) {
+      this.setState({
+        name: this.props.store.route[0].name,
+        description: this.props.store.route[0].description,
+        max_seats: this.props.store.route[0].max_seats,
+      })
     }
   }
 
@@ -42,7 +57,7 @@ class AdminVanRte extends Component {
 
   checkEditAccess() {
     if (this.props.location.hash === '#edit') {
-        this.setState({ editMode: true });
+      this.setState({ editMode: true });
     } else {
       this.setState({ editMode: false });
     }
@@ -50,7 +65,7 @@ class AdminVanRte extends Component {
 
   userAccessDescribe(access) {
     access = parseInt(access);
-    if (access === 0) return 'Unconfirmed user';
+    if (access === 0) return 'Pending user';
     if (access === 1) return 'Inactive user';
     if (access === 2) return 'Vanpool member';
     if (access > 2) return 'Administrator';
@@ -111,9 +126,9 @@ class AdminVanRte extends Component {
               </div>
 
               : <div className="adminTools">
-                  <p>Route name: {this.state.name}</p>
-                  <p>Route description: {this.state.description}</p>
-                  <p>Maximum seating capacity: {this.state.max_seats}</p>
+                <p>Route name: {this.state.name}</p>
+                <p>Route description: {this.state.description}</p>
+                <p>Maximum seating capacity: {this.state.max_seats}</p>
               </div>
             }
 
