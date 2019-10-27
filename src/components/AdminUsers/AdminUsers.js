@@ -43,7 +43,7 @@ class AdminUsers extends Component {
       [propertyName]: event.target.value
     });
     this.props.dispatch({
-      type: 'UPDATE_ACCESS',
+      type: 'CHANGE_USER_ACCESS',
       payload: {
         userId: this.props.user.id,
         [propertyName]: event.target.value

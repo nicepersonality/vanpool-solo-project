@@ -52,10 +52,40 @@ function* updateUser(action) {
   }
 }
 
+// worker Saga: will be fired on "CHANGE_USER_ACCESS" actions
+function* changeUserAccess(action) {
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.put('/api/user/access', action.payload, config);
+    yield listUsers();
+  } catch (error) {
+    console.log('User update request failed', error);
+  }
+}
+
+// worker Saga: will be fired on "DELETE_USER" actions
+function* deleteUser(action) {
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.delete(`/api/user/${action.payload.userId}`, config);
+    yield listUsers();
+  } catch (error) {
+    console.log('User delete request failed', error);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('LIST_USERS', listUsers);
   yield takeLatest('UPDATE_USER', updateUser);
+  yield takeLatest('CHANGE_USER_ACCESS', changeUserAccess);
+  yield takeLatest('DELETE_USER', deleteUser);
 }
 
 export default userSaga;
