@@ -38,15 +38,15 @@ class AdminUsers extends Component {
     return '';
   }
 
-  handleInputChangeFor = propertyName => (event) => {
+  handleAccessChange = (event) => {
     this.setState({
-      [propertyName]: event.target.value
+      access_level: event.target.value
     });
     this.props.dispatch({
       type: 'CHANGE_USER_ACCESS',
       payload: {
         userId: this.props.user.id,
-        [propertyName]: event.target.value
+        access_level: event.target.value
       },
     });
   }
@@ -73,7 +73,7 @@ class AdminUsers extends Component {
               <label htmlFor="accessSelect" className="field">
                 <select name="accessSelect"
                   value={this.state.access_level}
-                  onChange={this.handleInputChangeFor('access_level')}
+                  onChange={this.handleAccessChange}
                 >
                   {(this.props.user.access_level < 1) &&
                     <option value="0">{this.userAccessDescribe(0)}</option>
