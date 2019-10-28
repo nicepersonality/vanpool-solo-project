@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { formatPhoneNumber } from 'react-phone-number-input';
+import swal from '@sweetalert/with-react';
 
 class AdminUsers extends Component {
   state = {
@@ -52,13 +53,29 @@ class AdminUsers extends Component {
   }
   handleDelete = (event) => {
     event.preventDefault();
-    this.props.dispatch({
-      type: 'DELETE_USER',
-      payload: {
-        userId: this.props.user.id,
-      },
-    });
-  } // end handleSubmit
+    swal({
+      title: "Delete user?",
+      text: "Are you sure? This cannot be undone!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.props.dispatch({
+            type: 'DELETE_USER',
+            payload: {
+              userId: this.props.user.id,
+            },
+          });
+          swal("The user has been deleted!", {
+            icon: "success",
+          });
+        } else {
+          swal("The user will not be deleted.");
+        }
+      });
+  } // end handleDelete
 
   render() {
     return (
