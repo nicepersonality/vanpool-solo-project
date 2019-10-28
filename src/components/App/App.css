@@ -35,6 +35,10 @@ html {
     --color-link-hover: var(--color-primary-shade1);
     --color-link-active: var(--color-primary-shade1);
     font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+h1, h2, h3, h4 {
+    margin: none;
 }
 h1 {
     --sub-rhythm: var(--rhythm-double);
@@ -47,6 +51,18 @@ h2 {
     --line-height-ratio: 1.2;
     font-family: var(--font-body);
     font-weight: 300;
+}
+h3 {
+    --sub-rhythm: var(--rhythm);
+    --line-height-ratio: 1;
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+h4 {
+    --sub-rhythm: var(--rhythm);
+    --line-height-ratio: 1;
+    font-family: var(--font-body);
+    font-weight: 500;
 }
 b, strong, var {
     font-weight: 800;
@@ -224,6 +240,59 @@ header p {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+}
+
+/* additional rider information styles */
+.userRiding {
+    text-align: center;
+    padding: 0.75rem;
+}
+.riderList {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.riderList li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.75rem 0;
+}
+.riderList li:nth-child(odd) {
+    background-color: var(--color-neutral-tint3);
+}
+.riderList .riderName,
+.riderList .riderCell a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+}
+
+/* Admin user list improvements */
+.adminUserList ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.AdminUsers-component {
+    padding: 0.75rem 1.5rem;
+}
+.AdminUsers-component:nth-child(odd) {
+    background-color: var(--color-neutral-tint3);
+}
+.AdminUsers-component > div {
+    padding: 0.5rem 0;
+}
+.AdminUsers-component .userNames {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.AdminUsers-component .userNames h4 {
+    margin: 0;
 }
 
 /* edit buttons */
