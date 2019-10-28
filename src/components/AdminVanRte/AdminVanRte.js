@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import swal from '@sweetalert/with-react';
 
 class AdminVanRte extends Component {
   state = {
@@ -52,6 +53,7 @@ class AdminVanRte extends Component {
         max_seats: this.state.max_seats
       },
     });
+    swal("Saved!", "The route information has been updated.", "success");
   } // end handleSubmit
 
 
