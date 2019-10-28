@@ -132,14 +132,15 @@ class Day extends Component {
             );
           })}
         </ul>
-        <h4>Notes</h4>
+        <h3>Notes</h3>
         {(this.state.messages && this.state.messages.length > 0)
           ?
           <ul>
             {this.state.messages.map((message) => {
               return (
                 <li key={message.time}>
-                  {JSON.stringify(message)}
+                  <h4>{message.display_name}, {moment(message.time).format('MMM D, h:mm a')}</h4>
+                  <blockquote>{message.content}</blockquote>
                 </li>
               );
             })}
