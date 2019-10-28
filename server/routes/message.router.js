@@ -21,9 +21,10 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/', rejectUnauthenticated, (req, res) => {
+  console.log('post api/messages req.body:', req.body);
   const queryText = `
-    INSERT INTO "messages"
-    SET "content" = $1, "user_id" = $2, "days_id" = $3;
+    INSERT INTO "messages" ("content", "user_id", "days_id")
+    VALUES ($1, $2, $3);
     `;
   const queryValues = [req.body.content, req.body.user_id, req.body.days_id];
   pool.query(queryText, queryValues)
