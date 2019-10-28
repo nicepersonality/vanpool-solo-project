@@ -18,13 +18,12 @@ class Day extends Component {
     driver: 'Nobody',
     user: this.props.store.user.display_name,
     userRiding: undefined,
-    edit: false
+    edit: false,
+    content: ''
   }
 
   componentDidMount() {
     this.setDayState(this.state.currentDay);
-    console.log('this.props.location.hash', this.props.location.hash);
-    
   }
 
   componentDidUpdate(prevProps) {
@@ -32,7 +31,7 @@ class Day extends Component {
       const newRiders = this.props.store.day.riders;
       const userRiding = newRiders.find(
         rider => rider.id === this.props.store.user.id
-        ) ? true : false;
+      ) ? true : false;
       this.setState({
         riders: newRiders,
         userRiding: userRiding
@@ -43,6 +42,11 @@ class Day extends Component {
       const newDriver = this.props.store.day.driver ? this.props.store.day.driver.display_name : 'Nobody';
       this.setState({
         driver: newDriver
+      });
+    }
+    if (prevProps.store.message !== this.props.store.message) {
+      this.setState({
+        messages: this.props.store.message
       });
     }
     if (prevProps.match.params.dayId !== this.props.match.params.dayId) {
@@ -63,6 +67,10 @@ class Day extends Component {
       type: 'FETCH_DAY',
       payload: dayId
     });
+    this.props.dispatch({
+      type: 'FETCH_MESSAGES',
+      payload: { date: dayId }
+    });
     const dayOfWeek = moment(dayId, 'YYYYMMDD').weekday();
     // calculate the previous and next days, skipping weekends
     let prevDay = 0;
@@ -79,9 +87,32 @@ class Day extends Component {
     }
     this.setState({
       prevDay: prevDay,
-      nextDay: nextDay
+      nextDay: nextDay,
+      messages: this.props.store.message
     });
   }
+  handleInputChangeFor = propertyName => (event) => {
+    this.setState({
+      [propertyName]: event.target.value
+    });
+  }
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (this.state.content === '') {
+      return;
+    }
+    this.props.dispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        content: this.state.content,
+        user_id: this.props.store.user.id,
+        days_id: this.state.currentDay
+      },
+    });
+    this.setState({
+      content: ''
+    });
+  } // end handleSubmit
 
   render() {
     return (
@@ -95,14 +126,14 @@ class Day extends Component {
             }
           )}>
             <span className="currentDow">{this.dayFormat('ddd')}</span>
-            <span className="currentMon">{this.dayFormat('MMM')}</span> 
-            <span className="currentDate">{this.dayFormat('DD')}</span> 
+            <span className="currentMon">{this.dayFormat('MMM')}</span>
+            <span className="currentDate">{this.dayFormat('DD')}</span>
           </h2>
           <div className="prevDayLink">
-            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward/><b>Previous</b></Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward /><b>Previous</b></Link>
           </div>
           <div className="nextDayLink">
-            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward/></Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward /></Link>
           </div>
           <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders.length !== 1 && 's' /* pluralize unless it's 1 */}</div>
           <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
@@ -115,7 +146,7 @@ class Day extends Component {
           {this.state.user}: <strong>{this.state.userRiding ? 'IN' : 'OUT'}</strong>
         </h4>
         <ul className="riderList">
-        {this.state.riders.map((rider) => {
+          {this.state.riders.map((rider) => {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
@@ -124,12 +155,44 @@ class Day extends Component {
             );
           })}
         </ul>
-
+        <h3>Notes</h3>
+        {(this.state.messages && this.state.messages.length > 0)
+          ?
+          <ul>
+            {this.state.messages.map((message) => {
+              return (
+                <li key={message.time}>
+                  <h4>{message.display_name}, {moment(message.time).format('MMM D, h:mm a')}</h4>
+                  <blockquote>{message.content}</blockquote>
+                </li>
+              );
+            })}
+          </ul>
+          :
+          <div>No notes</div>
+        }
+        <h3>Add a note</h3>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="content" className="field">
+            <textarea
+              type="text"
+              name="content"
+              value={this.state.content}
+              onChange={this.handleInputChangeFor('content')}
+            />
+            <span className="label">Enter your message:</span>
+          </label>
+          <button
+            className="button"
+            type="submit"
+            name="submit"
+          >Add note</button>
+        </form>
         {/* <hr /><pre className="wrapper -thin">this.state=
         {JSON.stringify(this.state, null, 2)}</pre> */}
 
-        <hr /><pre className="wrapper -thin">this.props=
-        {JSON.stringify(this.props, null, 2)}</pre>
+        {/* <hr /><pre className="wrapper -thin">this.props=
+        {JSON.stringify(this.props, null, 2)}</pre> */}
       </div>
     );
   }

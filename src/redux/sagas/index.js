@@ -4,6 +4,7 @@ import registrationSaga from './registrationSaga';
 import userSaga from './userSaga';
 import daySaga from './daySaga';
 import weekSaga from './weekSaga';
+import messageSaga from './messageSaga';
 import routeSaga from './routeSaga';
 
 // rootSaga is the primary saga.
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     userSaga(),
     daySaga(),
     weekSaga(),
+    messageSaga(),
     routeSaga(),
   ]);
 }
