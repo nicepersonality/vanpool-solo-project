@@ -39,7 +39,7 @@ class AdminPage extends Component {
 
   userAccessDescribe(access) {
     access = parseInt(access);
-    if (access === 0) return 'Unconfirmed user';
+    if (access === 0) return 'Pending user';
     if (access === 1) return 'Inactive user';
     if (access === 2) return 'Vanpool member';
     if (access > 2) return 'Administrator';
