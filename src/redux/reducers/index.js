@@ -3,6 +3,7 @@ import errors from './errorsReducer';
 import loginMode from './loginModeReducer';
 import user from './userReducer';
 import day from './dayReducer';
+import week from './weekReducer';
 import route from './routeReducer';
 import userList from './userListReducer';
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   loginMode, // will have a value of 'login' or 'registration' to control which screen is shown
   user, // will have an id and username if someone is logged in
   day, // contains day and rider details  
+  week, // contains week-at-a-glance overview  
   route, // contains information about the vanpool route and organization  
   userList, // contains information about all users  
 });
