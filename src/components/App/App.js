@@ -19,6 +19,7 @@ import AboutPage from '../AboutPage/AboutPage';
 import AdminPage from '../AdminPage/AdminPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import Pending from '../Pending/Pending';
 import Home from '../Home/Home';
 import Day from '../Day/Day';
 
@@ -83,6 +84,11 @@ class App extends Component {
               exact
               path="/home"
               component={Home}
+            />
+            <ProtectedRoute
+              exact
+              path="/pending"
+              component={Pending}
             />
             <ProtectedRoute
               exact
