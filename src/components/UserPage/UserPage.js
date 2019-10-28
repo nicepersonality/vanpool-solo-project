@@ -65,7 +65,7 @@ class UserPage extends Component {
 
   userAccessDescribe(access) {
     access = parseInt(access);
-    if (access === 0) return 'Unconfirmed user';
+    if (access === 0) return 'Pending user';
     if (access === 1) return 'Inactive user';
     if (access === 2) return 'Vanpool member';
     if (access > 2) return 'Administrator';
@@ -147,8 +147,8 @@ class UserPage extends Component {
             <p>Cell number: <a href={`sms:${this.state.cell}`}>{formatPhoneNumber(this.state.cell)}</a></p>
           </div>
         }
-        <pre className="wrapper -thin">{JSON.stringify(this.state, null, 2)}</pre>
-        <pre className="wrapper -thin">{JSON.stringify(this.props, null, 2)}</pre>
+        {/* <pre className="wrapper -thin">{JSON.stringify(this.state, null, 2)}</pre> */}
+        {/* <pre className="wrapper -thin">{JSON.stringify(this.props, null, 2)}</pre> */}
       </div>
     );
   }
