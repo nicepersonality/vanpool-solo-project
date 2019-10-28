@@ -18,7 +18,8 @@ class Day extends Component {
     driver: 'Nobody',
     user: this.props.store.user.display_name,
     userRiding: undefined,
-    edit: false
+    edit: false,
+    content: ''
   }
 
   componentDidMount() {
@@ -90,6 +91,28 @@ class Day extends Component {
       messages: this.props.store.message
     });
   }
+  handleInputChangeFor = propertyName => (event) => {
+    this.setState({
+      [propertyName]: event.target.value
+    });
+  }
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (this.state.content === '') {
+      return;
+    }
+    this.props.dispatch({
+      type: 'ADD_MESSAGE',
+      payload: {
+        content: this.state.content,
+        user_id: this.props.store.user.id,
+        days_id: this.state.currentDay
+      },
+    });
+    this.setState({
+      content: ''
+    });
+  } // end handleSubmit
 
   render() {
     return (
@@ -148,12 +171,28 @@ class Day extends Component {
           :
           <div>No notes</div>
         }
+        <h3>Add a note</h3>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="content" className="field">
+            <textarea
+              type="text"
+              name="content"
+              value={this.state.content}
+              onChange={this.handleInputChangeFor('content')}
+            />
+            <span className="label">Enter your message:</span>
+          </label>
+          <button
+            className="button"
+            type="submit"
+            name="submit"
+          >Add note</button>
+        </form>
+        {/* <hr /><pre className="wrapper -thin">this.state=
+        {JSON.stringify(this.state, null, 2)}</pre> */}
 
-        <hr /><pre className="wrapper -thin">this.state=
-        {JSON.stringify(this.state, null, 2)}</pre>
-
-        <hr /><pre className="wrapper -thin">this.props=
-        {JSON.stringify(this.props, null, 2)}</pre>
+        {/* <hr /><pre className="wrapper -thin">this.props=
+        {JSON.stringify(this.props, null, 2)}</pre> */}
       </div>
     );
   }

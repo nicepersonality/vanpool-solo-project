@@ -24,9 +24,10 @@ function* addMessage(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
+    console.log('addMessage: action.payload:', action.payload);
     yield axios.post('/api/messages', action.payload, config);
     const currentDay = action.payload.days_id;
-    yield fetchMessages({date: currentDay});
+    yield fetchMessages({payload: {date: currentDay}});
   } catch (error) {
     console.log('Route update request failed', error);
   }
