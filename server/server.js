@@ -11,6 +11,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const dayRouter = require('./routes/day.router');
+const weekRouter = require('./routes/week.router');
 const vanRouter = require('./routes/van.router');
 const messageRouter = require('./routes/message.router');
 
@@ -28,6 +29,7 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/day', dayRouter);
+app.use('/api/week', weekRouter);
 app.use('/api/route', vanRouter);
 app.use('/api/messages', messageRouter);
 
