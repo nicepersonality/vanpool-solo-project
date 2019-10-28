@@ -23,8 +23,6 @@ class Day extends Component {
 
   componentDidMount() {
     this.setDayState(this.state.currentDay);
-    console.log('this.props.location.hash', this.props.location.hash);
-    
   }
 
   componentDidUpdate(prevProps) {
@@ -45,6 +43,16 @@ class Day extends Component {
         driver: newDriver
       });
     }
+    if (prevProps.store.message !== this.props.store.message) {
+      this.props.dispatch({
+        type: 'FETCH_MESSAGES',
+        payload: { date: this.state.currentDay }
+      });  
+      const newMessages = this.props.store.message
+           this.setState({
+        messages: newMessages
+      });
+    }
     if (prevProps.match.params.dayId !== this.props.match.params.dayId) {
       this.setState({
         currentDay: this.props.match.params.dayId
@@ -63,6 +71,10 @@ class Day extends Component {
       type: 'FETCH_DAY',
       payload: dayId
     });
+    this.props.dispatch({
+      type: 'FETCH_MESSAGES',
+      payload: { date: dayId }
+    });
     const dayOfWeek = moment(dayId, 'YYYYMMDD').weekday();
     // calculate the previous and next days, skipping weekends
     let prevDay = 0;
@@ -79,7 +91,8 @@ class Day extends Component {
     }
     this.setState({
       prevDay: prevDay,
-      nextDay: nextDay
+      nextDay: nextDay,
+      messages: this.props.store.message
     });
   }
 
@@ -124,9 +137,24 @@ class Day extends Component {
             );
           })}
         </ul>
+        <h4>Notes</h4>
+        { (this.state.messages && this.state.messages.length > 0)
+          ?
+          <ul>
+            {this.state.messages.map((message) => {
+              return (
+                <li key={message.time}>
+                {JSON.stringify(message)}
+              </li>
+              );
+            })}
+          </ul>
+          :
+          <div>No notes</div>
+        }
 
-        {/* <hr /><pre className="wrapper -thin">this.state=
-        {JSON.stringify(this.state, null, 2)}</pre> */}
+        <hr /><pre className="wrapper -thin">this.state=
+        {JSON.stringify(this.state, null, 2)}</pre>
 
         <hr /><pre className="wrapper -thin">this.props=
         {JSON.stringify(this.props, null, 2)}</pre>
