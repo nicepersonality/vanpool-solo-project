@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { formatPhoneNumber } from 'react-phone-number-input';
 import { FaForward, FaBackward } from 'react-icons/fa';
@@ -115,6 +115,9 @@ class Day extends Component {
   } // end handleSubmit
 
   render() {
+    if (this.props.store.user.access_level < 1) {
+      return <Redirect to='/pending' />
+    }
     return (
       <div className="Day-component">
         <div className="dayDetails">

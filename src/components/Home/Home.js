@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 class Home extends Component {
   render() {
+    if (this.props.store.user.access_level < 1) {
+      return <Redirect to='/pending' />
+    }
+
     const now = moment();
     const dayId = now.format('YYYYMMDD');
     
@@ -19,4 +24,7 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = store => ({
+  store,
+});
+export default connect(mapStateToProps)(Home);
