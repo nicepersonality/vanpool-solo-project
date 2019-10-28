@@ -30,7 +30,7 @@ class Day extends Component {
       const newRiders = this.props.store.day.riders;
       const userRiding = newRiders.find(
         rider => rider.id === this.props.store.user.id
-        ) ? true : false;
+      ) ? true : false;
       this.setState({
         riders: newRiders,
         userRiding: userRiding
@@ -44,13 +44,8 @@ class Day extends Component {
       });
     }
     if (prevProps.store.message !== this.props.store.message) {
-      this.props.dispatch({
-        type: 'FETCH_MESSAGES',
-        payload: { date: this.state.currentDay }
-      });  
-      const newMessages = this.props.store.message
-           this.setState({
-        messages: newMessages
+      this.setState({
+        messages: this.props.store.message
       });
     }
     if (prevProps.match.params.dayId !== this.props.match.params.dayId) {
@@ -108,14 +103,14 @@ class Day extends Component {
             }
           )}>
             <span className="currentDow">{this.dayFormat('ddd')}</span>
-            <span className="currentMon">{this.dayFormat('MMM')}</span> 
-            <span className="currentDate">{this.dayFormat('DD')}</span> 
+            <span className="currentMon">{this.dayFormat('MMM')}</span>
+            <span className="currentDate">{this.dayFormat('DD')}</span>
           </h2>
           <div className="prevDayLink">
-            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward/><b>Previous</b></Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.prevDay }}><FaBackward /><b>Previous</b></Link>
           </div>
           <div className="nextDayLink">
-            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward/></Link>
+            <Link className="svg-combo" to={{ pathname: '/day/' + this.state.nextDay }}><b>Next</b><FaForward /></Link>
           </div>
           <div className="riderCount"><strong>{this.state.riders.length}</strong> rider{this.state.riders.length !== 1 && 's' /* pluralize unless it's 1 */}</div>
           <div className="driverInfo"><strong>{this.state.driver}</strong> is driving</div>
@@ -128,7 +123,7 @@ class Day extends Component {
           {this.state.user}: <strong>{this.state.userRiding ? 'IN' : 'OUT'}</strong>
         </h4>
         <ul className="riderList">
-        {this.state.riders.map((rider) => {
+          {this.state.riders.map((rider) => {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
@@ -138,14 +133,14 @@ class Day extends Component {
           })}
         </ul>
         <h4>Notes</h4>
-        { (this.state.messages && this.state.messages.length > 0)
+        {(this.state.messages && this.state.messages.length > 0)
           ?
           <ul>
             {this.state.messages.map((message) => {
               return (
                 <li key={message.time}>
-                {JSON.stringify(message)}
-              </li>
+                  {JSON.stringify(message)}
+                </li>
               );
             })}
           </ul>
