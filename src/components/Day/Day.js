@@ -111,15 +111,15 @@ class Day extends Component {
             <DayEdit currentDay={this.state.currentDay} />
           }
         </div>
-        <div className="userRiding">
+        <h4 className="userRiding">
           {this.state.user}: <strong>{this.state.userRiding ? 'IN' : 'OUT'}</strong>
-        </div>
+        </h4>
         <ul className="riderList">
         {this.state.riders.map((rider) => {
             return (
               <li key={rider.id}>
                 <span className="riderName">{rider.display_name}</span>
-                <span className="riderCell"><a href={'sms:' + rider.cell}>{formatPhoneNumber(rider.cell)}</a></span>
+                <span className="riderCell"><a className="button -outlined" href={'sms:' + rider.cell}>{formatPhoneNumber(rider.cell)}</a></span>
               </li>
             );
           })}

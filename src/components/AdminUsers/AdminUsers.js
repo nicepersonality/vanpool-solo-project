@@ -80,10 +80,12 @@ class AdminUsers extends Component {
   render() {
     return (
       <li className="AdminUsers-component">
-        <h4>{this.props.user.full_name}</h4>
-        <div>“{this.props.user.display_name}”</div>
-        <div><a href={`mailto:${this.props.user.username}`}>{this.props.user.username}</a></div>
-        <div><a href={`sms:${this.props.user.cell}`}>{formatPhoneNumber(this.props.user.cell)}</a></div>
+        <div className="userNames">
+          <h4>{this.props.user.full_name}</h4>
+          <div>“{this.props.user.display_name}”</div>
+        </div>
+        <div><a className="button -small -outlined" href={`mailto:${this.props.user.username}`}>{this.props.user.username}</a></div>
+        <div><a className="button -small -outlined" href={`sms:${this.props.user.cell}`}>{formatPhoneNumber(this.props.user.cell)}</a></div>
         {(this.state.editMode === true)
           ? <>
             <div>
