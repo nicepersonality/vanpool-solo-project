@@ -7,12 +7,15 @@ const Nav = (props) => (
     {/* display the calendar nav links if the user is logged in,
     and the Login/Register & About links if not */}
     <ul className="topNav">
-      {( props.store.user.id )
+      {(props.store.user.id)
         // Display the calendar nav links if the user is logged in
         ? <>
-          <li><Link className="nav-link" to="/day">Day</Link></li>
-          <li><Link className="nav-link" to="/day">Week</Link></li>
-          <li><Link className="nav-link" to="/day">Month</Link></li>
+          <li><Link className="nav-link" to="/day">Today</Link></li>
+          <li><Link className="nav-link" to="/about">About</Link></li>
+          {(props.store.user.access_level > 2) && (
+            // Only show the admin link if they have access
+            <li><Link className="nav-link" to="/admin">Admin</Link></li>
+          )}
         </>
         // Display the login options and about page if not logged in
         : <>

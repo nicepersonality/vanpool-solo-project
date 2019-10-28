@@ -16,10 +16,6 @@ class Footer extends Component {
             ? <>
               <li><Link className="nav-link" to="/user">{this.props.store.user.display_name}</Link></li>
               <li><Link className="nav-link" to="/home" onClick={() => this.props.dispatch({ type: 'LOGOUT' })}>Log Out</Link></li>
-              {(this.props.store.user.access_level > 2) && (
-                // Only show the admin link if they have access
-                <li><Link className="nav-link" to="/admin">Admin</Link></li>
-              )}
               {(this.props.location.hash !== '#edit')
                 // Toggle edit move based on hash
                 ? <li><Link className="nav-link" to={{ hash: '#edit' }}>Edit</Link></li>
