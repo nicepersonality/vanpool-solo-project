@@ -48,7 +48,15 @@ class RegisterPage extends Component {
           </h2>
         )}
         <form className="wrapper -thin" onSubmit={this.registerUser}>
-          <h1>Register User</h1>
+          <h1 onClick={() => {
+            this.setState({
+              username: 'frankie.folsom@example.com',
+              full_name: 'Frankie Folsom',
+              display_name: 'Frankie',
+              cell: '+15559871234',
+              password: 'frank'
+            });
+          }}>Register User</h1>
           <div>
             <label htmlFor="username" className="field">
               <input
