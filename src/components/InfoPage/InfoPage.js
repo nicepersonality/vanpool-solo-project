@@ -5,8 +5,11 @@ import { connect } from 'react-redux';
 class InfoPage extends Component {
   componentDidMount() {
     this.props.dispatch({
-      type: 'FETCH_DAY',
-      payload: 20191021
+      type: 'FETCH_WEEK',
+      payload: {
+        dayId: 20191031,
+        userId: this.props.store.user.id
+      }
     });
   }
   render() {
